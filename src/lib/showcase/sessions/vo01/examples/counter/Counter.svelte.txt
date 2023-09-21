@@ -1,0 +1,7 @@
+<script>
+    let counter = 0;
+</script>
+
+<button on:click={() => counter--}>-</button>
+<span>{counter}</span>
+<button on:click={() => counter++}>+</button>

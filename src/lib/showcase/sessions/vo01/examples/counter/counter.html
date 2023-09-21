@@ -1,0 +1,14 @@
+<script>
+  function increment(){
+      let count = document.querySelector('#count');
+      count.innerText = parseInt(count.innerText) + 1;
+  }
+  function decrement(){
+      let count = document.querySelector('#count');
+      count.innerText = parseInt(count.innerText) - 1;
+  }
+</script>
+
+<button onclick="decrement()">-</button>
+<span id="count">0</span>
+<button onclick="increment()">+</button>

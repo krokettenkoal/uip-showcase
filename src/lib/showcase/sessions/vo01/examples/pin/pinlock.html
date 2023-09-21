@@ -1,0 +1,25 @@
+<div id="display">Enter PIN</div>
+<div id="buttons"></div>
+<script>
+    const pin = '4269';
+    let entered = '';
+    createButtons();
+    function createButtons(){
+        for(let i = 0; i < 10; i++){
+            const button = document.createElement('button');
+            button.innerText = i;
+            button.onclick = () => enter(i);
+            document.querySelector("#buttons").appendChild(button);
+        }
+    }
+    function enter(num){
+        entered += num;
+        const display = document.querySelector("#display");
+        if(entered.length === pin.length){
+            display.innerText = entered === pin ? 'correct' : 'incorrect';
+            entered = '';
+            return;
+        }
+        display.innerText = '*'.repeat(entered.length);
+    }
+</script>

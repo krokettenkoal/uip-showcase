@@ -1,0 +1,12 @@
+<script>
+    function addTodo(){
+        let todo = document.querySelector('input#new-todo');
+        let li = document.createElement('li');
+        li.innerText = todo.value;
+        todo.value = '';
+        document.querySelector('ul#todos').appendChild(li);
+    }
+</script>
+<ul id="todos"></ul>
+<input id="new-todo" type="text" />
+<button onclick="addTodo()">Add</button>
