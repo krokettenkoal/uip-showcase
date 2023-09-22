@@ -1,5 +1,5 @@
 <script lang="ts">
-    import Tab, { Label, Icon } from '@smui/tab';
+    import Tab, { Label } from '@smui/tab';
     import TabBar from '@smui/tab-bar';
     import Highlight from "svelte-highlight";
     import xml from "svelte-highlight/languages/xml";
@@ -7,6 +7,7 @@
     import {onMount} from "svelte";
     import defaultStyle from "svelte-highlight/styles/github-dark.css?inline";
     import Fa from "svelte-fa";
+    import Paper, {Content} from "@smui/paper";
 
     export let data: ShowcaseExample;
 
@@ -31,14 +32,21 @@
 </svelte:head>
 
 <article class="showcase">
-    <h2>{data.title}</h2>
+    <h1 class="mdc-typography--headline3">{data.title}</h1>
 
     <section class="showcase-component">
-        <svelte:component this={data.component} {...data.props} />
+        <Paper padded>
+            <Content class="component">
+                <svelte:component this={data.component} {...data.props} />
+            </Content>
+        </Paper>
     </section>
 
     <section id="code">
-        <h3>Source code</h3>
+        <h2 class="mdc-typography--headline4">Source code</h2>
+        <p class="mdc-typography--subtitle1 mdc-theme--text-secondary-on-background">
+            The source codes shown below do not include any styling, only structure and logic.
+        </p>
         <TabBar tabs={data.src} {key} let:tab bind:active>
             <Tab {tab} minWidth>
                 <Label>
@@ -52,3 +60,11 @@
         <Highlight language={active.language ?? xml} code={active.code} />
     </section>
 </article>
+
+<style>
+    :global(.component){
+        display: flex;
+        flex-flow: column nowrap;
+        align-items: center;
+    }
+</style>
