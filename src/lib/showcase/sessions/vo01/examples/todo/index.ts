@@ -4,6 +4,9 @@ import SourceSvelte from './Todo.svelte.txt?raw';
 import SourceVanilla from './Todo.html?raw';
 import SourceReact from './Todo.jsx?raw';
 import {javascript} from "svelte-highlight/languages";
+import {ciSvelte} from "$lib/custom-icons";
+import {faReact} from "@fortawesome/free-brands-svg-icons";
+import {faJs} from "@fortawesome/free-brands-svg-icons";
 
 const data: ShowcaseExample = {
     id: 'todo',
@@ -14,15 +17,18 @@ const data: ShowcaseExample = {
     src: [
         {
             title: 'Svelte',
-            code: SourceSvelte
+            code: SourceSvelte,
+            icon: ciSvelte
         },
         {
             title: 'Vanilla',
-            code: SourceVanilla
+            code: SourceVanilla,
+            icon: faJs
         },
         {
             title: 'React',
             code: SourceReact,
+            icon: faReact,
             language: javascript
         }
     ]

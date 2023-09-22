@@ -2,6 +2,8 @@ import type {ShowcaseExample} from "$lib/showcase/showcase";
 import Component from './Counter.svelte';
 import SourceSvelte from './Counter.svelte.txt?raw';
 import SourceVanilla from './counter.html?raw';
+import {ciSvelte} from "$lib/custom-icons";
+import {faJs} from "@fortawesome/free-brands-svg-icons";
 
 const data: ShowcaseExample = {
     id: 'counter',
@@ -12,11 +14,13 @@ const data: ShowcaseExample = {
     src: [
         {
             title: 'Svelte',
-            code: SourceSvelte
+            code: SourceSvelte,
+            icon: ciSvelte
         },
         {
             title: 'Vanilla',
-            code: SourceVanilla
+            code: SourceVanilla,
+            icon: faJs
         }
     ]
 }

@@ -1,17 +1,18 @@
 <script lang="ts">
-    import SegmentedButton, { Segment } from "@smui/segmented-button";
-    import Tab, { Label } from '@smui/tab';
+    import Tab, { Label, Icon } from '@smui/tab';
     import TabBar from '@smui/tab-bar';
     import Highlight from "svelte-highlight";
     import xml from "svelte-highlight/languages/xml";
     import type {ShowcaseExample, ExampleSource} from "$lib/showcase/showcase";
     import {onMount} from "svelte";
     import defaultStyle from "svelte-highlight/styles/github-dark.css?inline";
+    import Fa from "svelte-fa";
 
     export let data: ShowcaseExample;
 
-    let active: string = "Svelte", src: ExampleSource, style: string = defaultStyle;
-    $: src = data.src.find(s => s.title === active) ?? data.src[0];
+    let active: ExampleSource = data.src[0], style: string = defaultStyle;
+
+    const key = (src: ExampleSource) => src.title;
 
     onMount(async () => {
         const themeSuffix = window.matchMedia("(prefers-color-scheme: dark)").matches ? "-dark" : "";
@@ -38,11 +39,16 @@
 
     <section id="code">
         <h3>Source code</h3>
-        <TabBar tabs={data.src.map(s => s.title)} let:tab bind:active>
+        <TabBar tabs={data.src} {key} let:tab bind:active>
             <Tab {tab} minWidth>
-                <Label>{tab}</Label>
+                <Label>
+                    {#if tab.icon}
+                        <Fa icon={tab.icon} />
+                    {/if}
+                    {tab.title}
+                </Label>
             </Tab>
         </TabBar>
-        <Highlight language={src.language ?? xml} code={src.code} />
+        <Highlight language={active.language ?? xml} code={active.code} />
     </section>
 </article>
