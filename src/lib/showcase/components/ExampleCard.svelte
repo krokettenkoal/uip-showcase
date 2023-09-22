@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type {ShowcaseSession, ShowcaseExample} from "$lib/showcase/showcase";
+    import type {ShowcaseSession, ShowcaseExample, ExampleSource} from "$lib/showcase/showcase";
     import Card, {
         Content,
         Media,
@@ -7,6 +7,7 @@
         ActionButtons,
     } from '@smui/card';
     import Button, {Icon, Label} from '@smui/button';
+    import Fa from "svelte-fa";
 
     export let session: ShowcaseSession;
     export let example: ShowcaseExample;
@@ -23,6 +24,17 @@
                 {example.subtitle}
             </h3>
         {/if}
+        <ul class="sources">
+            {#each example.src as src (src.title)}
+                <li title={src.title}>
+                    {#if src.icon}
+                        <Fa icon={src.icon} />
+                    {:else}
+                        {src.title}
+                    {/if}
+                </li>
+            {/each}
+        </ul>
     </Content>
     <Actions>
         <ActionButtons>
@@ -37,5 +49,16 @@
 <style>
     :global(.example) {
         min-width: 20rem;
+    }
+
+    ul.sources {
+        list-style: none;
+        padding: 0;
+        display: flex;
+        flex-flow: row wrap;
+        column-gap: 1rem;
+        row-gap: .5rem;
+        font-size: 1.5rem;
+        color: var(--mdc-theme-text-hint-on-background);
     }
 </style>
