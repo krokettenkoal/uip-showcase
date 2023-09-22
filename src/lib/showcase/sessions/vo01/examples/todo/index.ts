@@ -21,16 +21,16 @@ const data: ShowcaseExample = {
             icon: ciSvelte
         },
         {
-            title: 'Vanilla',
-            code: SourceVanilla,
-            icon: faJs
-        },
-        {
             title: 'React',
             code: SourceReact,
             icon: faReact,
             language: javascript
-        }
+        },
+        {
+            title: 'Vanilla',
+            code: SourceVanilla,
+            icon: faJs
+        },
     ]
 }
 
