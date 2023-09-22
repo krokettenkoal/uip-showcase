@@ -6,6 +6,7 @@ import SourceVanilla from './counter.html?raw';
 const data: ShowcaseExample = {
     id: 'counter',
     title: 'Counter',
+    subtitle: 'A simple counter example',
     icon: 'exposure_plus_1',
     component: Component,
     src: [

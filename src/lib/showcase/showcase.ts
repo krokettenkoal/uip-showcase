@@ -9,7 +9,9 @@ export interface ExampleSource {
 export interface ShowcaseExample {
     id: string;
     title: string;
+    subtitle?: string;
     icon?: string;
+    image?: string;
     component: typeof SvelteComponent;
     src: ExampleSource[];
     props?: any;

@@ -8,6 +8,7 @@ import {javascript} from "svelte-highlight/languages";
 const data: ShowcaseExample = {
     id: 'todo',
     title: 'To-do',
+    subtitle: 'A (very) basic to-do list',
     icon: 'checklist',
     component: Component,
     src: [

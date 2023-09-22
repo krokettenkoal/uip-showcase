@@ -6,6 +6,7 @@ import SourceVanilla from './PinLock.html?raw';
 const data: ShowcaseExample = {
     id: 'pin',
     title: 'PIN Code',
+    subtitle: 'A simple PIN code, as seen on a phone lock screen',
     icon: 'dialpad',
     component: Component,
     src: [
