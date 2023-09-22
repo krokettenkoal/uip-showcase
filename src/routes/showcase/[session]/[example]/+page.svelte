@@ -3,13 +3,19 @@
     import type {ShowcaseExample} from "$lib/showcase/showcase";
     import Button, { Label, Icon } from '@smui/button';
     import type {ShowcaseSession} from "$lib/showcase/showcase.js";
+    import {onDestroy, onMount} from "svelte";
+    import {title} from "$lib/stores/titleStore";
 
     export let data: { session: ShowcaseSession, example: ShowcaseExample };
-</script>
 
-<svelte:head>
-    <title>{data.example.title} | UIP Showcase</title>
-</svelte:head>
+    onMount(() => {
+        $title = data.example.title;
+    });
+
+    onDestroy(() => {
+        $title = "";
+    });
+</script>
 
 <Button href="/showcase/{data.session.id}">
     <Icon class="material-icons">arrow_back_ios</Icon>

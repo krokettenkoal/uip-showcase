@@ -3,8 +3,18 @@
     import Button, {Icon, Label} from "@smui/button";
     import ExampleCard from "$lib/showcase/components/ExampleCard.svelte";
     import CardsContainer from "$lib/showcase/components/CardsContainer.svelte";
+    import {onDestroy, onMount} from "svelte";
+    import {title} from "$lib/stores";
 
     export let data: ShowcaseSession;
+
+    onMount(() => {
+        $title = data.title;
+    });
+
+    onDestroy(() => {
+        $title = "";
+    });
 </script>
 
 <Button href="/showcase">

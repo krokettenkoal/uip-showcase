@@ -20,6 +20,7 @@
     import {Icon} from "@smui/button";
     import Fa from "svelte-fa";
     import {faGithub} from "@fortawesome/free-brands-svg-icons";
+    import {title} from "$lib/stores";
 
     export let data: { sessions: ShowcaseSession[] };
 
@@ -27,7 +28,9 @@
 </script>
 
 <svelte:head>
-    <title>UIP Showcase</title>
+    <title>
+        {$title ? $title + ' | ' : ''}UIP Showcase
+    </title>
 </svelte:head>
 
 <TopAppBar bind:this={topAppBar} variant="standard">
