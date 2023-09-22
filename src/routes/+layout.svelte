@@ -34,7 +34,9 @@
     <Row>
         <Section>
             <IconButton on:click={() => menuOpen = !menuOpen} class="material-icons">menu</IconButton>
-            <AppBarTitle>UIP Showcase</AppBarTitle>
+            <AppBarTitle>
+                <a href="/" id="app-bar-title">UIP Showcase</a>
+            </AppBarTitle>
         </Section>
         <Section align="end">
             <IconButton href="https://github.com/krokettenkoal/uip-showcase" title="View source code on GitHub" target="_blank">
@@ -105,6 +107,11 @@
         height: auto !important;
         width: auto !important;
         position: static !important;
+    }
+
+    #app-bar-title {
+        color: inherit;
+        text-decoration: inherit;
     }
 
     #content-wrapper {
