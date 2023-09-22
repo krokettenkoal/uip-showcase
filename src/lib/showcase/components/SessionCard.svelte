@@ -12,7 +12,7 @@
 </script>
 
 <Card class="session">
-    <Media class="card-media-16x9" aspectRatio="16x9" style="background-image:url({session.image || '/img/sessions/placeholder.jpg'})" />
+    <Media class="card-media-16x9" aspectRatio="16x9" style="background-image:url(/img/sessions/{session.image || 'placeholder.jpg'})" />
     <Content class="mdc-typography--body2">
         <h2 class="mdc-typography--headline6" style="margin: 0;">
             {session.title}
