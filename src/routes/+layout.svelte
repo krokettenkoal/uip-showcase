@@ -18,6 +18,8 @@
     import {page} from "$app/stores";
     import type {ShowcaseSession} from "$lib/showcase/showcase";
     import {Icon} from "@smui/button";
+    import Fa from "svelte-fa";
+    import {faGithub} from "@fortawesome/free-brands-svg-icons";
 
     export let data: { sessions: ShowcaseSession[] };
 
@@ -35,7 +37,9 @@
             <AppBarTitle>UIP Showcase</AppBarTitle>
         </Section>
         <Section align="end">
-            <IconButton class="material-icons"></IconButton>
+            <IconButton href="https://github.com/krokettenkoal/uip-showcase" title="View source code on GitHub" target="_blank">
+                <Fa icon={faGithub} />
+            </IconButton>
         </Section>
     </Row>
 </TopAppBar>
@@ -104,7 +108,6 @@
     }
 
     #content-wrapper {
-        background-image: var(--hero-bg);
         padding: 1rem;
     }
 </style>
