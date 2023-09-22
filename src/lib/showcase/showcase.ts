@@ -18,6 +18,9 @@ export interface ShowcaseExample {
 export interface ShowcaseSession {
     id: string;
     title: string;
+    subtitle?: string;
+    description?: string;
+    image?: string;
     examples: ShowcaseExample[];
 }
 

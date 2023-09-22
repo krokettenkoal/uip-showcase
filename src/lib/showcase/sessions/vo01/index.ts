@@ -6,6 +6,7 @@ import Todo from "./examples/todo";
 const data: ShowcaseSession = {
     id: "vo01",
     title: "Lecture 1",
+    subtitle: "Introduction",
     examples: [
         Counter,
         Pin,
