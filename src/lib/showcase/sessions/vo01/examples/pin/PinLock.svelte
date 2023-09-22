@@ -30,6 +30,7 @@
 <div class="code-display"
      class:success={result === PinResult.Success}
      class:fail={result === PinResult.Fail}
+     class:empty={entered.length === 0}
 >
     {'*'.repeat(entered.length) || resultMessage(result) || 'Enter PIN'}
 </div>
@@ -45,10 +46,14 @@
     .code-display {
         text-align: center;
         text-transform: uppercase;
-        padding: 1rem 1rem 1rem 3rem;
+        padding: 1rem;
         margin-bottom: 1rem;
         font-size: 2rem;
+        line-height: 2rem;
+    }
+    .code-display:not(.empty){
         letter-spacing: 2rem;
+        padding-left: 3rem;
     }
     .code-display.success {
         color: forestgreen;
@@ -64,6 +69,7 @@
         gap: 1rem;
         justify-items: center;
         align-items: center;
+        max-width: 20rem;
     }
 
     .numpad > div {
