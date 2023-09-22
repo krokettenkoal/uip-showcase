@@ -16,7 +16,7 @@
 @use '@material/typography/mixins' as typography;
 
 :root {
-  --hero-bg: linear-gradient(to right top, #0e1e2e, #0d1b29, #0c1725, #0b1420, #08101c, #060e1a, #050c19, #030917, #030917, #030917, #030917, #030917);
+  --bg-gradient: linear-gradient(to right top, #0e1e2e, #0d1b29, #0c1725, #0b1420, #08101c, #060e1a, #050c19, #030917, #030917, #030917, #030917, #030917);
 }
 
 html,
