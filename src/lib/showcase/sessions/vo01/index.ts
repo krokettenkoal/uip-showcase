@@ -7,6 +7,7 @@ const data: ShowcaseSession = {
     id: "vo01",
     title: "Lecture 1",
     subtitle: "Introduction",
+    image: "hello.jpg",
     examples: [
         Counter,
         Pin,

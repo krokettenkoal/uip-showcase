@@ -10,6 +10,7 @@ const data: ShowcaseExample = {
     title: 'Counter',
     subtitle: 'A simple counter example',
     icon: 'exposure_plus_1',
+    image: 'counter.jpg',
     component: Component,
     src: [
         {

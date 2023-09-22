@@ -10,6 +10,7 @@ const data: ShowcaseExample = {
     title: 'PIN Code',
     subtitle: 'A simple PIN code, as seen on a phone lock screen',
     icon: 'dialpad',
+    image: 'pin.webp',
     component: Component,
     src: [
         {

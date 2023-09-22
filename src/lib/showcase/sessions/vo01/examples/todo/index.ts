@@ -13,6 +13,7 @@ const data: ShowcaseExample = {
     title: 'To-do',
     subtitle: 'A (very) basic to-do list',
     icon: 'checklist',
+    image: 'todo.jpg',
     component: Component,
     src: [
         {
