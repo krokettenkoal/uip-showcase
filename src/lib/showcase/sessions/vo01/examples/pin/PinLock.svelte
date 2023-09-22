@@ -37,7 +37,7 @@
 <div class="numpad">
     {#each Array(10) as _, i}
         <div style="--num: n{i}">
-            <Fab on:click={() => enter(i)} style="--num:n{i}">{i}</Fab>
+            <Fab on:click={() => enter(i)} color="primary">{i}</Fab>
         </div>
     {/each}
 </div>
