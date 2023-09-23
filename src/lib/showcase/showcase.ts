@@ -1,7 +1,7 @@
 import type {SvelteComponent} from "svelte";
 import type {LanguageType} from "svelte-highlight/languages";
 import type {IconDefinition} from "@fortawesome/free-brands-svg-icons";
-import type {CustomIconDefinition} from "$lib/custom-icons/ciSvelte";
+import type {CustomIconDefinition} from "$lib/custom-icons";
 
 export interface ExampleSource {
     title: string;
