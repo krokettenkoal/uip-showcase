@@ -3,3 +3,19 @@ body {
     background-image: var(--bg-gradient);
     min-height: 100vh;
 }
+
+@-webkit-keyframes hero-bg {
+    0%{background-position:99% 0}
+    50%{background-position:2% 100%}
+    100%{background-position:99% 0}
+}
+@-moz-keyframes hero-bg {
+    0%{background-position:99% 0}
+    50%{background-position:2% 100%}
+    100%{background-position:99% 0}
+}
+@keyframes hero-bg {
+    0%{background-position:99% 0}
+    50%{background-position:2% 100%}
+    100%{background-position:99% 0}
+}
