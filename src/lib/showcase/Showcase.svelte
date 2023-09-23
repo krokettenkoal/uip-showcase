@@ -35,7 +35,7 @@
     <h1 class="mdc-typography--headline3">{data.title}</h1>
 
     <section class="showcase-component">
-        <Paper padded>
+        <Paper>
             <Content class="component">
                 <svelte:component this={data.component} {...data.props} />
             </Content>
@@ -57,7 +57,7 @@
                 </Label>
             </Tab>
         </TabBar>
-        <Highlight language={active.language ?? xml} code={active.code} />
+        <Highlight language={active.language ?? xml} code={active.code} class="code" />
     </section>
 </article>
 
@@ -66,5 +66,10 @@
         display: flex;
         flex-flow: column nowrap;
         align-items: center;
+    }
+
+    :global(.code){
+        border-radius: 4px;
+        overflow: clip;
     }
 </style>
