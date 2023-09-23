@@ -1,7 +1,7 @@
 <script lang="ts">
     import type {ShowcaseSession} from "$lib/showcase/showcase";
-    import SessionCard from "$lib/showcase/components/SessionCard.svelte";
-    import CardsContainer from "$lib/showcase/components/CardsContainer.svelte";
+    import SessionCard from "$lib/components/SessionCard.svelte";
+    import CardsContainer from "$lib/components/CardsContainer.svelte";
 
     export let data: {sessions: ShowcaseSession[]};
 </script>

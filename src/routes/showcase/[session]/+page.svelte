@@ -1,7 +1,7 @@
 <script lang="ts">
     import type {ShowcaseSession} from "$lib/showcase/showcase";
-    import ExampleCard from "$lib/showcase/components/ExampleCard.svelte";
-    import CardsContainer from "$lib/showcase/components/CardsContainer.svelte";
+    import ExampleCard from "$lib/components/ExampleCard.svelte";
+    import CardsContainer from "$lib/components/CardsContainer.svelte";
     import {onDestroy, onMount} from "svelte";
     import {title} from "$lib/stores";
     import BackButton from "$lib/components/BackButton.svelte";
