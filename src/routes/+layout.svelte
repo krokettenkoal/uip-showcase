@@ -21,6 +21,7 @@
     import Fa from "svelte-fa";
     import {faGithub} from "@fortawesome/free-brands-svg-icons";
     import {title} from "$lib/stores";
+    import {ciMoodle} from "$lib/custom-icons";
 
     export let data: { sessions: ShowcaseSession[] };
 
@@ -42,6 +43,9 @@
             </AppBarTitle>
         </Section>
         <Section align="end">
+            <IconButton href="https://ecampus.fhstp.ac.at/course/view.php?id=31327" title="View course on eCampus" target="_blank">
+                <Fa icon={ciMoodle} />
+            </IconButton>
             <IconButton href="https://github.com/krokettenkoal/uip-showcase" title="View source code on GitHub" target="_blank">
                 <Fa icon={faGithub} />
             </IconButton>
@@ -119,5 +123,17 @@
 
     #content-wrapper {
         padding: 1rem;
+    }
+
+    @media screen and (min-width: 1200px){
+        #content-wrapper {
+            padding: 1rem 10rem;
+        }
+    }
+
+    @media screen and (min-width: 1600px){
+        #content-wrapper {
+            padding: 1rem 20rem;
+        }
     }
 </style>
