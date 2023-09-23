@@ -22,7 +22,8 @@
     <Label>Back</Label>
 </Button>
 
-<h2>{data.title}</h2>
+<h1 class="mdc-typography--headline3">{data.title}</h1>
+<p class="mdc-typography--subtitle1 mdc-theme--text-secondary-on-background">{data.subtitle}</p>
 <CardsContainer>
     {#each data.examples as example}
         <ExampleCard session={data} {example} />
