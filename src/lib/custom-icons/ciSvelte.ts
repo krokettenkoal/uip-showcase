@@ -1,7 +1,6 @@
 import type {IconPathData} from "@fortawesome/fontawesome-common-types";
 import type {IconDefinition, IconName, IconPrefix} from "@fortawesome/free-brands-svg-icons";
-export type CustomIconName = Exclude<string, IconName>;
-export type CustomIconDefinition = Omit<IconDefinition, 'iconName'> & {iconName: CustomIconName};
+import type {CustomIconDefinition, CustomIconName} from "$lib/custom-icons";
 
 export const prefix: IconPrefix = 'fab';
 export const iconName: CustomIconName = 'svelte';
