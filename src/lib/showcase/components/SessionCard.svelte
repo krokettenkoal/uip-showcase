@@ -36,6 +36,7 @@
 
 <style>
     :global(.session) {
-        min-width: 20rem;
+        min-width: 18rem;
+        max-width: 20rem;
     }
 </style>

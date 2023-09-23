@@ -46,7 +46,7 @@
 
 <style>
     :global(.example) {
-        min-width: 20rem;
+        min-width: 18rem;
     }
 
     ul.sources {
@@ -58,5 +58,11 @@
         row-gap: .5rem;
         font-size: 1.5rem;
         color: var(--mdc-theme-text-hint-on-background);
+    }
+
+    @media screen and (min-width: 768px){
+        :global(.example) {
+            max-width: 20rem;
+        }
     }
 </style>
