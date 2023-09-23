@@ -64,8 +64,8 @@
                 <Text>Home</Text>
             </Item>
             <Item href="/showcase" activated={$page.url.pathname === '/showcase'} on:click={() => menuOpen = !menuOpen}>
-                <Graphic class="material-icons" aria-hidden="true">code</Graphic>
-                <Text>Examples</Text>
+                <Graphic class="material-icons" aria-hidden="true">source</Graphic>
+                <Text>Library</Text>
             </Item>
 
             <Separator />

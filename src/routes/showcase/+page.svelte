@@ -5,7 +5,8 @@
 
     export let data: {sessions: ShowcaseSession[]};
 </script>
-<h1 class="mdc-typography--headline3">Lecture examples</h1>
+
+<h1 class="mdc-typography--headline3">Library</h1>
 <CardsContainer>
     {#each data.sessions as session}
         <SessionCard {session} />
