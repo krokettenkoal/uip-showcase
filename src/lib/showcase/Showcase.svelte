@@ -33,6 +33,9 @@
 
 <article class="showcase">
     <h1 class="mdc-typography--headline3">{data.title}</h1>
+    {#if data.subtitle}
+        <p class="mdc-typography--subtitle1 mdc-theme--text-secondary-on-background">{data.subtitle}</p>
+    {/if}
 
     <section class="showcase-component">
         <Paper>
