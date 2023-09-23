@@ -1,10 +1,9 @@
 <script lang="ts">
-    import type {ShowcaseSession, ShowcaseExample, ExampleSource} from "$lib/showcase/showcase";
+    import type {ShowcaseSession, ShowcaseExample} from "$lib/showcase/showcase";
     import Card, {
         Content,
         Media,
         Actions,
-        ActionButtons,
     } from '@smui/card';
     import Button, {Icon, Label} from '@smui/button';
     import Fa from "svelte-fa";
