@@ -37,12 +37,10 @@
         </ul>
     </Content>
     <Actions>
-        <ActionButtons>
-            <Button href="/showcase/{session.id}/{example.id}">
-                <Label>View example</Label>
-                <Icon class="material-icons">arrow_forward</Icon>
-            </Button>
-        </ActionButtons>
+        <Button href="/showcase/{session.id}/{example.id}">
+            <Label>View example</Label>
+            <Icon class="material-icons">arrow_forward</Icon>
+        </Button>
     </Actions>
 </Card>
 
