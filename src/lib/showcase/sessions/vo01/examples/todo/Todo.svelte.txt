@@ -10,6 +10,8 @@
 <ul>
     {#each todos as todo}
         <li>{todo}</li>
+    {:else}
+        <li>Nothing to do! 🥳</li>
     {/each}
 </ul>
 <input type="text" bind:value={newTodo} />

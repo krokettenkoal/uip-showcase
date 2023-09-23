@@ -2,6 +2,6 @@
     let counter = 0;
 </script>
 
-<button on:click={() => counter--}>-</button>
+<button on:click={() => counter = Math.max(0, counter - 1)}>-</button>
 <span>{counter}</span>
 <button on:click={() => counter++}>+</button>

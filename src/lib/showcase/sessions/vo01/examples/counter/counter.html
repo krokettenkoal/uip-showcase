@@ -5,7 +5,7 @@
   }
   function decrement(){
       let count = document.querySelector('#count');
-      count.innerText = parseInt(count.innerText) - 1;
+      count.innerText = Math.max(0, parseInt(count.innerText) - 1);
   }
 </script>
 
