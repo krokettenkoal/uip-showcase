@@ -7,12 +7,36 @@
   },
   "servers": [
     {
-      "url": "https"
+      "url": "http://localhost:8888/api",
+      "description": "Local development server"
+    }
+  ],
+  "tags": [
+    {
+      "name": "course",
+      "description": "Course related endpoints"
+    },
+    {
+      "name": "session",
+      "description": "Session related endpoints"
+    },
+    {
+      "name": "example",
+      "description": "Example related endpoints"
+    },
+    {
+      "name": "source",
+      "description": "Source code related endpoints"
+    },
+    {
+      "name": "sourcetype",
+      "description": "Source code type related endpoints"
     }
   ],
   "components": {
     "schemas": {
       "Course": {
+        "title": "Course",
         "type": "object",
         "description": "A course (LV) in a study program",
         "required": [
@@ -32,30 +56,28 @@
           "subtitle": {
             "type": "string",
             "description": "The course subtitle (optional)"
-          },
-          "sessions": {
-            "type": "array",
-            "description": "The sessions of the course. Can either be an array of `Session`s or an array of integers (session ids)",
-            "items": {
-              "oneOf": [
-                {
-                  "$ref": "#/components/schemas/Session"
-                },
-                {
-                  "type": "integer"
-                }
-              ]
-            }
           }
         }
       },
       "Session": {
+        "title": "Session",
         "type": "object",
         "description": "A session (lecture or exercise) of a course",
+        "required": [
+          "id",
+          "courseId",
+          "title",
+          "component",
+          "sources"
+        ],
         "properties": {
           "id": {
             "type": "integer",
             "description": "The session id"
+          },
+          "courseId": {
+            "type": "integer",
+            "description": "The id of the course the session belongs to"
           },
           "title": {
             "type": "string",
@@ -72,28 +94,16 @@
           "date": {
             "type": "string",
             "description": "The date of the session (optional)"
-          },
-          "examples": {
-            "type": "array",
-            "description": "The examples of the session. Can either be an array of `Example`s or an array of integers (example ids)",
-            "items": {
-              "oneOf": [
-                {
-                  "$ref": "#/components/schemas/Example"
-                },
-                {
-                  "type": "integer"
-                }
-              ]
-            }
           }
         }
       },
       "Example": {
+        "title": "Example",
         "type": "object",
         "description": "A code example as demonstrated in a session",
         "required": [
           "id",
+          "sessionId",
           "title",
           "component",
           "sources"
@@ -102,6 +112,10 @@
           "id": {
             "type": "integer",
             "description": "The example id"
+          },
+          "sessionId": {
+            "type": "integer",
+            "description": "The id of the session the example belongs to"
           },
           "title": {
             "type": "string",
@@ -122,28 +136,16 @@
           "component": {
             "type": "string",
             "description": "The name of the component showcasing the example, e.g. 'TodoList'"
-          },
-          "sources": {
-            "type": "array",
-            "description": "The sources (source codes) of the example. Can either be an array of `Source`s or an array of integers (source ids)",
-            "items": {
-              "oneOf": [
-                {
-                  "$ref": "#/components/schemas/Source"
-                },
-                {
-                  "type": "integer"
-                }
-              ]
-            }
           }
         }
       },
       "Source": {
+        "title": "Source",
         "type": "object",
         "description": "A source code of an example",
         "required": [
           "id",
+          "exampleId",
           "type",
           "code"
         ],
@@ -151,6 +153,10 @@
           "id": {
             "type": "integer",
             "description": "The (internal) id of the source"
+          },
+          "exampleId": {
+            "type": "integer",
+            "description": "The id of the example the source belongs to"
           },
           "type": {
             "description": "The type (language/framework) of the source. Can either be a `SourceType` or an integer (source type id)",
@@ -170,6 +176,7 @@
         }
       },
       "SourceType": {
+        "title": "SourceType",
         "type": "object",
         "description": "A type (language/framework) of a source code",
         "required": [
@@ -198,9 +205,14 @@
     }
   },
   "paths": {
-    "/courses": {
+    "/course": {
       "get": {
-        "description": "Courses",
+        "operationId": "getCourses",
+        "summary": "All courses",
+        "description": "Retrieve all courses.",
+        "tags": [
+          "course"
+        ],
         "responses": {
           "200": {
             "description": "OK",
@@ -220,7 +232,12 @@
     },
     "/course/{courseId}": {
       "get": {
-        "description": "Course",
+        "operationId": "getCourseById",
+        "summary": "Course by id",
+        "description": "Retrieve a course by its id.",
+        "tags": [
+          "course"
+        ],
         "parameters": [{
             "name": "courseId",
             "in": "path",
@@ -246,9 +263,51 @@
         }
       }
     },
+    "/session": {
+      "get": {
+        "operationId": "getSessionsByCourse",
+        "summary": "Sessions by course",
+        "description": "Retrieve all sessions of a specific course.",
+        "tags": [
+          "session"
+        ],
+        "parameters": [{
+          "name": "courseId",
+          "description": "The id of the course to retrieve the sessions for",
+          "in": "query",
+          "required": true,
+          "schema": {
+            "type": "integer"
+          }
+        }],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                      "$ref": "#/components/schemas/Session"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
     "/session/{sessionId}": {
       "get": {
-        "description": "Session",
+        "operationId": "getSessionById",
+        "summary": "Session by id",
+        "description": "Retrieve a session by its id.",
+        "tags": [
+          "session"
+        ],
         "parameters": [
           {
             "name": "sessionId",
@@ -277,9 +336,51 @@
         }
       }
     },
+    "/example": {
+      "get": {
+        "operationId": "getExamplesBySession",
+        "summary": "Examples by session",
+        "description": "Retrieve all examples of a specific session.",
+        "tags": [
+          "example"
+        ],
+        "parameters": [{
+          "name": "session",
+          "description": "The id of the session to retrieve the examples for",
+          "in": "query",
+          "required": true,
+          "schema": {
+            "type": "integer"
+          }
+        }],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Example"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
     "/example/{exampleId}": {
       "get": {
-        "description": "Example",
+        "operationId": "getExampleById",
+        "summary": "Example by id",
+        "description": "Retrieve an example by its id.",
+        "tags": [
+          "example"
+        ],
         "parameters": [
           {
             "name": "exampleId",
@@ -298,6 +399,143 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/Example"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/source": {
+      "get": {
+        "operationId": "getSourcesByExample",
+        "summary": "Sources by example",
+        "description": "Retrieve all source codes of a specific example.",
+        "tags": [
+          "source"
+        ],
+        "parameters": [{
+          "name": "example",
+          "description": "The id of the example to retrieve the source codes for",
+          "in": "query",
+          "required": true,
+          "schema": {
+            "type": "integer"
+          }
+        }],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Source"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/source/{sourceId}": {
+      "get": {
+        "operationId": "getSourceById",
+        "summary": "Source by id",
+        "description": "Retrieve a source code by its id.",
+        "tags": [
+          "source"
+        ],
+        "parameters": [
+          {
+            "name": "sourceId",
+            "description": "The id of the source code to retrieve",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Source"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/sourcetype": {
+      "get": {
+        "operationId": "getSourceTypes",
+        "summary": "All source types",
+        "description": "Retrieve all source code types.",
+        "tags": [
+          "sourcetype"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SourceType"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/sourcetype/{typeId}": {
+      "get": {
+        "operationId": "getSourceTypeById",
+        "summary": "Source type by id",
+        "description": "Retrieve a source code type by its id.",
+        "tags": [
+          "sourcetype"
+        ],
+        "parameters": [
+          {
+            "name": "typeId",
+            "description": "The id of the source code type to retrieve",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SourceType"
                 }
               }
             }
