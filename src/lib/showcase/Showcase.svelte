@@ -42,11 +42,13 @@
     {/if}
 
     <section class="showcase-component">
-        <Paper>
-            <Content class="component">
-                <svelte:component this={data.component} {...data.props}/>
-            </Content>
-        </Paper>
+        {#if data.component}
+            <Paper>
+                <Content class="component">
+                    <svelte:component this={data.component} {...data.props}/>
+                </Content>
+            </Paper>
+        {/if}
     </section>
 
     <section id="code">
