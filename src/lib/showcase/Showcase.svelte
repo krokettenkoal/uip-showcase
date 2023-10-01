@@ -11,8 +11,8 @@
     import {SourcetypeApi} from "$lib/api";
     import type {LanguageType} from "svelte-highlight/languages";
     import {loadIcon} from "$lib/custom-icons";
+    import {Icon} from "@smui/button";
 
-    export let session: Session|null = null;
     export let example: Example;
     export let component: typeof SvelteComponent;
     export let sources: Source[];
@@ -71,7 +71,9 @@
             {@const sourceType = types.find(t => t.id === tab.type)}
             <Tab {tab} minWidth>
                 <Label>
-                    {#await loadIcon(sourceType?.icon) then icon}
+                    {#await loadIcon(sourceType?.icon)}
+                        <Icon class="material-icons">code</Icon>
+                    {:then icon}
                     {#if icon}
                         <Fa {icon} />
                     {/if}

@@ -36,10 +36,13 @@
         {/if}
         <ul class="sources">
             {#each types as src (src.id)}
-                {#await loadIcon(src.icon) then icon}
+                {#await loadIcon(src.icon)}
+                    <Icon class="material-icons">code</Icon>
+                {:then icon}
                 <li title={src.title}>
                     {#if icon}
                         <Fa {icon} />
+
                     {:else}
                         {src.title}
                     {/if}
