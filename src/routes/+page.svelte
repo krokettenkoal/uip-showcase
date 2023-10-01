@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
     import {Label, Icon} from "@smui/button";
     import Hero, {Actions, Button, Content, Title} from "$lib/components/hero";
 </script>
