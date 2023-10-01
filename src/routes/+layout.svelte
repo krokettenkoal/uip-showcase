@@ -22,8 +22,9 @@
     import {faGithub} from "@fortawesome/free-brands-svg-icons";
     import {title} from "$lib/stores";
     import {ciMoodle} from "$lib/custom-icons";
+    import type {Course, Session} from "$lib/api";
 
-    export let data: { sessions: ShowcaseSession[] };
+    export let data: { sessions: Session[][], courses: Course[] };
 
     let topAppBar: TopAppBar, menuOpen: boolean = false, panelOpen: {[session: string]: boolean} = {};
 </script>
@@ -69,26 +70,25 @@
             </Item>
 
             <Separator />
-            <Subheader tag="h6">Examples</Subheader>
+            <Subheader tag="h6">Courses</Subheader>
             <Accordion>
-            {#each data.sessions as session}
-                <Panel bind:open={panelOpen[session.id]}>
+            {#each data.courses as course, i}
+                <Panel bind:open={panelOpen[course.id]}>
                     <AccordionHeader>
-                        {session.title}
-                        <IconButton slot="icon" toggle pressed={panelOpen[session.id]}>
+                        {course.title}
+                        <IconButton slot="icon" toggle pressed={panelOpen[course.id]}>
                             <Icon class="material-icons" on>expand_less</Icon>
                             <Icon class="material-icons">expand_more</Icon>
                         </IconButton>
                     </AccordionHeader>
                     <AccordionContent>
                         <List>
-                            {#each session.examples as example}
-                                <Item href="/showcase/{session.id}/{example.id}" activated={$page.url.pathname === `/showcase/${session.id}/${example.id}`} on:click={() => menuOpen = !menuOpen}>
-                                    {#if example.icon}
-                                        <Graphic class="material-icons" aria-hidden="true">{example.icon}</Graphic>
-                                    {/if}
-                                    <Text>{example.title}</Text>
+                            {#each data.sessions[i] as session}
+                                <Item href="/showcase/{course.id}/{session.id}" activated={$page.url.pathname === `/showcase/${course.id}/${session.id}`} on:click={() => menuOpen = !menuOpen}>
+                                    <Text>{session.title}</Text>
                                 </Item>
+                            {:else}
+                                <Item disabled><Text>No sessions found.</Text></Item>
                             {/each}
                         </List>
                     </AccordionContent>

@@ -1,9 +1,12 @@
 import type {LayoutData, LayoutLoad, LayoutLoadEvent} from "./$types";
-import {loadSessions} from "$lib/showcase/showcase";
+import {CourseApi, SessionApi} from "$lib/api";
+import {api} from "$lib/api/factory";
 export const prerender = true;
 
-export const load: LayoutLoad = async ({}: LayoutLoadEvent): Promise<LayoutData> => {
-    // Load all modules found inside showcase components folder
-    const sessions = await loadSessions();
-    return {sessions};
+export const load: LayoutLoad = async ({fetch}: LayoutLoadEvent): Promise<LayoutData> => {
+    const courseApi = api(CourseApi, fetch);
+    const sessionApi = api(SessionApi, fetch);
+    const courses = await courseApi.getCourses();
+    const sessions = await Promise.all(courses.map(c => sessionApi.getSessionsByCourse(c.id)));
+    return {courses, sessions};
 }
