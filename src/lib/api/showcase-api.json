@@ -343,7 +343,7 @@
           "example"
         ],
         "parameters": [{
-          "name": "session",
+          "name": "sessionId",
           "description": "The id of the session to retrieve the examples for",
           "in": "query",
           "required": true,
@@ -416,7 +416,7 @@
           "source"
         ],
         "parameters": [{
-          "name": "example",
+          "name": "exampleId",
           "description": "The id of the example to retrieve the source codes for",
           "in": "query",
           "required": true,
