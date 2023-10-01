@@ -2,13 +2,18 @@
   "openapi": "3.0.3",
   "info": {
     "title": "Showcase API",
-    "description": "API for FHSTP Showcase",
+    "description": "API for FHStP Showcase",
     "version": "1.0.0"
   },
   "servers": [
+
     {
-      "url": "http://localhost:8888/api",
+      "url": "http://localhost:8888/showcase/api/public",
       "description": "Local development server"
+    },
+    {
+      "url": "https://mt201096.students.fhstp.ac.at/showcase/api/public",
+      "description": "SHEEP API server"
     }
   ],
   "tags": [
@@ -159,15 +164,8 @@
             "description": "The id of the example the source belongs to"
           },
           "type": {
-            "description": "The type (language/framework) of the source. Can either be a `SourceType` or an integer (source type id)",
-            "oneOf": [
-              {
-                  "$ref": "#/components/schemas/SourceType"
-              },
-              {
-                  "type": "integer"
-              }
-            ]
+            "type": "integer",
+            "description": "The type (language/framework) of the source. Can either be a `SourceType` or an integer (source type id)"
           },
           "code": {
             "type": "string",

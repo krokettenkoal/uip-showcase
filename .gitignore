@@ -11,3 +11,4 @@ vite.config.ts.timestamp-*
 /static/css/smui*.css
 /src/lib/api/**/*.*
 !/src/lib/api/showcase-api.json
+!/src/lib/api/factory.ts
