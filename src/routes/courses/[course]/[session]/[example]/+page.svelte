@@ -1,12 +1,11 @@
 <script lang="ts">
     import Showcase from "$lib/showcase/Showcase.svelte";
-    import type {ShowcaseExample} from "$lib/showcase/showcase";
-    import type {ShowcaseSession} from "$lib/showcase/showcase.js";
-    import {onDestroy, onMount} from "svelte";
+    import {onDestroy, onMount, SvelteComponent} from "svelte";
     import {title} from "$lib/stores/titleStore";
     import BackButton from "$lib/components/BackButton.svelte";
+    import type {Example, Session, Source} from "$lib/api";
 
-    export let data: { session: ShowcaseSession, example: ShowcaseExample };
+    export let data: { session: Session, example: Example, component: typeof SvelteComponent, sources: Source[]};
 
     onMount(() => {
         $title = data.example.title;
@@ -20,4 +19,4 @@
 <BackButton>
     {data.session.title}
 </BackButton>
-<Showcase data={data.example} />
+<Showcase {...data} />

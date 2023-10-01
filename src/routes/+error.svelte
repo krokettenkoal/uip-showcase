@@ -5,7 +5,7 @@
 </script>
 
 <Hero>
-    <Title>{$page.error.message}</Title>
+    <Title>{$page.error?.message}</Title>
     <Actions>
         <Button href="/">
             <Icon class="material-icons">arrow_back</Icon>

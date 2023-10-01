@@ -1,15 +1,15 @@
 <script lang="ts">
-    import type {ShowcaseSession} from "$lib/showcase/showcase";
     import ExampleCard from "$lib/components/ExampleCard.svelte";
     import CardsContainer from "$lib/components/CardsContainer.svelte";
     import {onDestroy, onMount} from "svelte";
     import {title} from "$lib/stores";
     import BackButton from "$lib/components/BackButton.svelte";
+    import type {Course, Example, Session} from "$lib/api";
 
-    export let data: ShowcaseSession;
+    export let data: {course: Course, session: Session, examples: Example[]};
 
     onMount(() => {
-        $title = data.title;
+        $title = data.session.title;
     });
 
     onDestroy(() => {
@@ -18,13 +18,13 @@
 </script>
 
 <BackButton>
-    Library
+    {data.course.title}
 </BackButton>
 
-<h1 class="mdc-typography--headline3">{data.title}</h1>
-<p class="mdc-typography--subtitle1 mdc-theme--text-secondary-on-background">{data.subtitle}</p>
+<h1 class="mdc-typography--headline3">{data.session.title}</h1>
+<p class="mdc-typography--subtitle1 mdc-theme--text-secondary-on-background">{data.session.subtitle}</p>
 <CardsContainer>
     {#each data.examples as example}
-        <ExampleCard session={data} {example} />
+        <ExampleCard session={data.session} {example} />
     {/each}
 </CardsContainer>

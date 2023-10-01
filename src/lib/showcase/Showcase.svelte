@@ -3,20 +3,37 @@
     import TabBar from '@smui/tab-bar';
     import Highlight from "svelte-highlight";
     import xml from "svelte-highlight/languages/xml";
-    import type {ShowcaseExample, ExampleSource} from "$lib/showcase/showcase";
-    import {onMount} from "svelte";
+    import {onMount, SvelteComponent} from "svelte";
     import defaultStyle from "svelte-highlight/styles/github-dark.css?inline";
     import Fa from "svelte-fa";
     import Paper, {Content} from "@smui/paper";
+    import type {Example, Session, Source, SourceType} from "$lib/api";
+    import {SourcetypeApi} from "$lib/api";
+    import type {LanguageType} from "svelte-highlight/languages";
+    import {loadIcon} from "$lib/custom-icons";
 
-    export let data: ShowcaseExample;
+    export let session: Session|null = null;
+    export let example: Example;
+    export let component: typeof SvelteComponent;
+    export let sources: Source[];
 
-    let active: ExampleSource = data.src[0], style: string = defaultStyle;
+    let active: Source = sources[0], style: string = defaultStyle, types: SourceType[] = [], activeType: SourceType|undefined;
+    $: activeType = types.find(t => t.id === active?.type);
 
-    const key = (src: ExampleSource) => src.title;
+    const key = (src: Source) => src.id;
+
+    async function getSourceLanguage(sourceType: SourceType|undefined): Promise<LanguageType<string>> {
+        if(!sourceType?.language)
+            return xml;
+
+        return (await import(`../../../node_modules/svelte-highlight/languages/${sourceType.language}`)).default;
+    }
 
     onMount(async () => {
         const themeSuffix = window.matchMedia("(prefers-color-scheme: dark)").matches ? "-dark" : "";
+        const sourceTypeApi = new SourcetypeApi();
+        types = await Promise.all(sources.map(src => sourceTypeApi.getSourceTypeById(src.type)));
+
         try {
             style = (await import(`../../../node_modules/svelte-highlight/styles/github${themeSuffix}.css?inline`)).default;
         }
@@ -32,15 +49,15 @@
 </svelte:head>
 
 <article class="showcase">
-    <h1 class="mdc-typography--headline3">{data.title}</h1>
-    {#if data.subtitle}
-        <p class="mdc-typography--subtitle1 mdc-theme--text-secondary-on-background">{data.subtitle}</p>
+    <h1 class="mdc-typography--headline3">{example.title}</h1>
+    {#if example.subtitle}
+        <p class="mdc-typography--subtitle1 mdc-theme--text-secondary-on-background">{example.subtitle}</p>
     {/if}
 
     <section class="showcase-component">
         <Paper>
             <Content class="component">
-                <svelte:component this={data.component} {...data.props} />
+                <svelte:component this={component} {...$$restProps} />
             </Content>
         </Paper>
     </section>
@@ -50,17 +67,22 @@
         <p class="mdc-typography--subtitle1 mdc-theme--text-secondary-on-background">
             The source codes shown below do not include any styling, only structure and logic.
         </p>
-        <TabBar tabs={data.src} {key} let:tab bind:active>
+        <TabBar tabs={sources} {key} let:tab bind:active>
+            {@const sourceType = types.find(t => t.id === tab.type)}
             <Tab {tab} minWidth>
                 <Label>
-                    {#if tab.icon}
-                        <Fa icon={tab.icon} />
+                    {#await loadIcon(sourceType?.icon) then icon}
+                    {#if icon}
+                        <Fa {icon} />
                     {/if}
-                    {tab.title}
+                    {/await}
+                    {sourceType?.title}
                 </Label>
             </Tab>
         </TabBar>
-        <Highlight language={active.language ?? xml} code={active.code} class="code" />
+        {#await getSourceLanguage(activeType) then lang}
+            <Highlight language={lang} code={active.code} class="code" />
+        {/await}
     </section>
 </article>
 

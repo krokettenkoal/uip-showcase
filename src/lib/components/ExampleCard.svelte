@@ -1,5 +1,4 @@
 <script lang="ts">
-    import type {ShowcaseSession, ShowcaseExample} from "$lib/showcase/showcase";
     import Card, {
         Content,
         Media,
@@ -7,9 +6,21 @@
     } from '@smui/card';
     import Button, {Icon, Label} from '@smui/button';
     import Fa from "svelte-fa";
+    import type {Example, Session, SourceType} from "$lib/api";
+    import {onMount} from "svelte";
+    import {SourceApi, SourcetypeApi} from "$lib/api";
+    import {loadIcon} from "$lib/custom-icons";
 
-    export let session: ShowcaseSession;
-    export let example: ShowcaseExample;
+    export let session: Session;
+    export let example: Example;
+
+    const sourceApi = new SourceApi(), sourceTypeApi = new SourcetypeApi();
+    let types: SourceType[] = [];
+
+    onMount(async () => {
+        const sources = await sourceApi.getSourcesByExample(example.id);
+        types = await Promise.all(sources.map(src => sourceTypeApi.getSourceTypeById(src.type)));
+    });
 </script>
 
 <Card class="example">
@@ -24,19 +35,21 @@
             </h3>
         {/if}
         <ul class="sources">
-            {#each example.src as src (src.title)}
+            {#each types as src (src.id)}
+                {#await loadIcon(src.icon) then icon}
                 <li title={src.title}>
-                    {#if src.icon}
-                        <Fa icon={src.icon} />
+                    {#if icon}
+                        <Fa {icon} />
                     {:else}
                         {src.title}
                     {/if}
                 </li>
+                {/await}
             {/each}
         </ul>
     </Content>
     <Actions>
-        <Button href="/showcase/{session.id}/{example.id}">
+        <Button href="/courses/{session.courseId}/{session.id}/{example.id}">
             <Label>View example</Label>
             <Icon class="material-icons">arrow_forward</Icon>
         </Button>

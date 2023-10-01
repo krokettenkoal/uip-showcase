@@ -31,7 +31,7 @@
 
 <svelte:head>
     <title>
-        {$title ? $title + ' | ' : ''}UIP Showcase
+        {$title ? $title + ' | ' : ''}UAS Showcase
     </title>
 </svelte:head>
 
@@ -64,9 +64,9 @@
                 <Graphic class="material-icons" aria-hidden="true">home</Graphic>
                 <Text>Home</Text>
             </Item>
-            <Item href="/showcase" activated={$page.url.pathname === '/showcase'} on:click={() => menuOpen = !menuOpen}>
+            <Item href="/courses" activated={$page.url.pathname === '/courses'} on:click={() => menuOpen = !menuOpen}>
                 <Graphic class="material-icons" aria-hidden="true">integration_instructions</Graphic>
-                <Text>Library</Text>
+                <Text>All courses</Text>
             </Item>
 
             <Separator />
@@ -84,7 +84,7 @@
                     <AccordionContent>
                         <List>
                             {#each data.sessions[i] as session}
-                                <Item href="/showcase/{course.id}/{session.id}" activated={$page.url.pathname === `/showcase/${course.id}/${session.id}`} on:click={() => menuOpen = !menuOpen}>
+                                <Item href="/courses/{course.id}/{session.id}" activated={$page.url.pathname === `/courses/${course.id}/${session.id}`} on:click={() => menuOpen = !menuOpen}>
                                     <Text>{session.title}</Text>
                                 </Item>
                             {:else}

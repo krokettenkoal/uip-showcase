@@ -1,5 +1,4 @@
 <script lang="ts">
-    import type {ShowcaseSession} from "$lib/showcase/showcase";
     import Card, {
         Content,
         Media,
@@ -7,8 +6,9 @@
         ActionButtons,
     } from '@smui/card';
     import Button, {Icon, Label} from '@smui/button';
+    import type {Session} from "$lib/api";
 
-    export let session: ShowcaseSession;
+    export let session: Session;
 </script>
 
 <Card class="session">
@@ -22,11 +22,10 @@
                 {session.subtitle}
             </h3>
         {/if}
-        {session.description ?? ''}
     </Content>
     <Actions>
         <ActionButtons>
-            <Button href="/showcase/{session.id}">
+            <Button href="/courses/{session.courseId}/{session.id}">
                 <Label>View examples</Label>
                 <Icon class="material-icons">arrow_forward</Icon>
             </Button>
