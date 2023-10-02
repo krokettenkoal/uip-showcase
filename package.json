@@ -22,6 +22,7 @@
 		"@material/typography": "^14.0.0",
 		"@openapitools/openapi-generator-cli": "^2.7.0",
 		"@smui-extra/accordion": "^7.0.0-beta.15",
+		"@smui-extra/badge": "^7.0.0-beta.15",
 		"@smui/button": "^7.0.0-beta.15",
 		"@smui/card": "^7.0.0-beta.15",
 		"@smui/chips": "^7.0.0-beta.15",
