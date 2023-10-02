@@ -18,9 +18,9 @@
             {session.title}
         </h2>
         {#if session.subtitle}
-            <h3 class="mdc-typography--subtitle2" style="margin: 0 0 10px; color: #888;">
+            <p class="mdc-typography--subtitle2" style="margin: 0 0 10px; color: #888;">
                 {session.subtitle}
-            </h3>
+            </p>
         {/if}
     </Content>
     <Actions>
