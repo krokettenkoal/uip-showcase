@@ -13,6 +13,8 @@
         Scrim,
     } from '@smui/drawer';
     import List, { Item, Text, Graphic, Separator, Subheader } from '@smui/list';
+    import {Label} from '@smui/common';
+    import Badge from '@smui-extra/badge';
     import Accordion, { Panel, Header as AccordionHeader, Content as AccordionContent } from '@smui-extra/accordion';
     import IconButton from '@smui/icon-button';
     import {page} from "$app/stores";
@@ -28,9 +30,9 @@
 
     let topAppBar: TopAppBar, menuOpen: boolean = false, panelOpen: {[session: string]: boolean} = {};
 
-    function courseSuffix(course: Course): string {
+    function studyProgramName(course: Course): string {
         const studyProgram = data.studyPrograms.find(program => program.id === course.studyProgramId);
-        return studyProgram ? ` (${studyProgram.title})` : '';
+        return studyProgram?.title ?? "ALL";
     }
 </script>
 
@@ -77,8 +79,9 @@
             {#each data.courses as course, i}
                 <Panel bind:open={panelOpen[course.id]}>
                     <AccordionHeader>
-                        {course.title}{courseSuffix(course)}
+                        <Label>{course.title}</Label>
                         <IconButton slot="icon" toggle pressed={panelOpen[course.id]}>
+                            <Badge class="program-badge" position="outset" align="middle-start">{studyProgramName(course)}</Badge>
                             <Icon class="material-icons" on>expand_less</Icon>
                             <Icon class="material-icons">expand_more</Icon>
                         </IconButton>
@@ -125,6 +128,10 @@
 
     #content-wrapper {
         padding: 1rem;
+    }
+
+    :global(.program-badge){
+        padding: 0 .5rem;
     }
 
     @media screen and (min-width: 1200px){
