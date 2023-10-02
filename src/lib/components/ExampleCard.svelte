@@ -8,22 +8,24 @@
     import Fa from "svelte-fa";
     import type {Example, Session, SourceType} from "$lib/api";
     import {onMount} from "svelte";
-    import {SourceApi, SourcetypeApi} from "$lib/api";
+    import {SourceApi} from "$lib/api";
     import {loadIcon} from "$lib/custom-icons";
+    import {getSourceType} from "$lib/api/factory";
 
     export let session: Session;
     export let example: Example;
+    export let i: number = 0;
 
-    const sourceApi = new SourceApi(), sourceTypeApi = new SourcetypeApi();
+    const sourceApi = new SourceApi();
     let types: SourceType[] = [];
 
     onMount(async () => {
         const sources = await sourceApi.getSourcesByExample(example.id);
-        types = await Promise.all(sources.map(src => sourceTypeApi.getSourceTypeById(src.typeId)));
+        types = await Promise.all(sources.map(src => getSourceType(src.typeId)));
     });
 </script>
 
-<Card class="example">
+<Card {...$$restProps} style="--i:{i}">
     <Media class="card-media-16x9" aspectRatio="16x9" style="background-image:url(/img/examples/{example.image || 'placeholder.jpg'})" />
     <Content class="mdc-typography--body2">
         <h2 class="mdc-typography--headline6" style="margin: 0;">
@@ -60,10 +62,6 @@
 </Card>
 
 <style>
-    :global(.example) {
-        min-width: 18rem;
-    }
-
     ul.sources {
         list-style: none;
         padding: 0;
@@ -73,11 +71,5 @@
         row-gap: .5rem;
         font-size: 1.5rem;
         color: var(--mdc-theme-text-hint-on-background);
-    }
-
-    @media screen and (min-width: 768px){
-        :global(.example) {
-            max-width: 20rem;
-        }
     }
 </style>

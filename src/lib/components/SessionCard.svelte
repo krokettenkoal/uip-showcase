@@ -9,9 +9,10 @@
     import type {Session} from "$lib/api";
 
     export let session: Session;
+    export let i: number = 0;
 </script>
 
-<Card class="session">
+<Card {...$$restProps} style="--i:{i}">
     <Media class="card-media-16x9" aspectRatio="16x9" style="background-image:url(/img/sessions/{session.image || 'placeholder.jpg'})" />
     <Content class="mdc-typography--body2">
         <h2 class="mdc-typography--headline6" style="margin: 0;">
@@ -32,10 +33,3 @@
         </ActionButtons>
     </Actions>
 </Card>
-
-<style>
-    :global(.session) {
-        min-width: 18rem;
-        max-width: 20rem;
-    }
-</style>

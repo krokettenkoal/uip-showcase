@@ -6,6 +6,7 @@
     .actions {
         display: flex;
         justify-content: space-evenly;
+        animation: fade-in 900ms ease-out 400ms 1 both;
     }
     .actions :global(button){
         font-size: 1.5rem;

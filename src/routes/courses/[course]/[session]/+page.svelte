@@ -18,13 +18,17 @@
 </script>
 
 <BackButton>
-    {data.course.title}
+    Back to course ({data.course.title})
 </BackButton>
 
-<h1 class="mdc-typography--headline3">{data.session.title}</h1>
-<p class="mdc-typography--subtitle1 mdc-theme--text-secondary-on-background">{data.session.subtitle}</p>
+<h1 class="mdc-typography--headline3">
+    {data.course.title} – {data.session.title}
+</h1>
+<p class="mdc-typography--subtitle1 mdc-theme--text-secondary-on-background">
+    {data.session.subtitle}
+</p>
 <CardsContainer>
-    {#each data.examples as example}
-        <ExampleCard session={data.session} {example} />
+    {#each data.examples as example, i}
+        <ExampleCard session={data.session} {example} {i} />
     {/each}
 </CardsContainer>
