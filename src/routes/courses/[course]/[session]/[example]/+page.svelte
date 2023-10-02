@@ -5,7 +5,7 @@
     import BackButton from "$lib/components/BackButton.svelte";
     import type {Example, Session, Source} from "$lib/api";
 
-    export let data: { session: Session, example: Example, component: typeof SvelteComponent, sources: Source[]};
+    export let data: { session: Session, example: Example, component?: typeof SvelteComponent, sources: Source[]};
 
     onMount(() => {
         $title = data.example.title;

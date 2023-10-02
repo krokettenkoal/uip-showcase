@@ -14,11 +14,11 @@
     import {Icon} from "@smui/button";
 
     export let example: Example;
-    export let component: typeof SvelteComponent;
+    export let component: (typeof SvelteComponent) | undefined = undefined;
     export let sources: Source[];
 
     let active: Source = sources[0], style: string = defaultStyle, types: SourceType[] = [], activeType: SourceType|undefined;
-    $: activeType = types.find(t => t.id === active?.type);
+    $: activeType = types.find(t => t.id === active?.typeId);
 
     const key = (src: Source) => src.id;
 
@@ -29,10 +29,15 @@
         return (await import(`../../../node_modules/svelte-highlight/languages/${sourceType.language}`)).default;
     }
 
+    function sortSource(a: Source, b: Source): number {
+        //  Sort by priority, then by id
+        return (a.priority - b.priority) || (a.id - b.id);
+    }
+
     onMount(async () => {
         const themeSuffix = window.matchMedia("(prefers-color-scheme: dark)").matches ? "-dark" : "";
         const sourceTypeApi = new SourcetypeApi();
-        types = await Promise.all(sources.map(src => sourceTypeApi.getSourceTypeById(src.type)));
+        types = await Promise.all(sources.map(src => sourceTypeApi.getSourceTypeById(src.typeId)));
 
         try {
             style = (await import(`../../../node_modules/svelte-highlight/styles/github${themeSuffix}.css?inline`)).default;
@@ -54,6 +59,7 @@
         <p class="mdc-typography--subtitle1 mdc-theme--text-secondary-on-background">{example.subtitle}</p>
     {/if}
 
+    {#if component}
     <section class="showcase-component">
         <Paper>
             <Content class="component">
@@ -61,14 +67,15 @@
             </Content>
         </Paper>
     </section>
+    {/if}
 
     <section id="code">
         <h2 class="mdc-typography--headline4">Source code</h2>
         <p class="mdc-typography--subtitle1 mdc-theme--text-secondary-on-background">
             The source codes shown below do not include any styling, only structure and logic.
         </p>
-        <TabBar tabs={sources} {key} let:tab bind:active>
-            {@const sourceType = types.find(t => t.id === tab.type)}
+        <TabBar tabs={sources.sort(sortSource)} {key} let:tab bind:active>
+            {@const sourceType = types.find(t => t.id === tab.typeId)}
             <Tab {tab} minWidth>
                 <Label>
                     {#await loadIcon(sourceType?.icon)}
@@ -78,7 +85,7 @@
                         <Fa {icon} />
                     {/if}
                     {/await}
-                    {sourceType?.title}
+                    {tab.title ?? sourceType?.title}
                 </Label>
             </Tab>
         </TabBar>

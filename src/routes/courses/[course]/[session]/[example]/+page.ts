@@ -20,6 +20,9 @@ export const load: PageLoad = async ({ params, fetch }: PageLoadEvent): Promise<
     if(!session || !example)
         throw error(404);
 
-    const component: typeof SvelteComponent = (await import(`/src/lib/components/showcase/${example.component}.svelte`)).default;
+    let component: (typeof SvelteComponent) | undefined = undefined;
+    if(example.component)
+        component = (await import(`/src/lib/components/showcase/${example.component}.svelte`)).default;
+
     return {session, example, component, sources};
 }
