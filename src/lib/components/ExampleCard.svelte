@@ -19,7 +19,7 @@
 
     onMount(async () => {
         const sources = await sourceApi.getSourcesByExample(example.id);
-        types = await Promise.all(sources.map(src => sourceTypeApi.getSourceTypeById(src.type)));
+        types = await Promise.all(sources.map(src => sourceTypeApi.getSourceTypeById(src.typeId)));
     });
 </script>
 
@@ -30,9 +30,9 @@
             {example.title}
         </h2>
         {#if example.subtitle}
-            <h3 class="mdc-typography--subtitle2" style="margin: 0 0 10px; color: #888;">
+            <p class="mdc-typography--subtitle2" style="margin: 0 0 10px; color: #888;">
                 {example.subtitle}
-            </h3>
+            </p>
         {/if}
         <ul class="sources">
             {#each types as src (src.id)}

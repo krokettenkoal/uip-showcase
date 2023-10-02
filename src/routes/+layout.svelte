@@ -22,11 +22,16 @@
     import {faGithub} from "@fortawesome/free-brands-svg-icons";
     import {title} from "$lib/stores";
     import {ciMoodle} from "$lib/custom-icons";
-    import type {Course, Session} from "$lib/api";
+    import type {Course, Session, StudyProgram} from "$lib/api";
 
-    export let data: { sessions: Session[][], courses: Course[] };
+    export let data: { sessions: Session[][], courses: Course[], studyPrograms: StudyProgram[] };
 
     let topAppBar: TopAppBar, menuOpen: boolean = false, panelOpen: {[session: string]: boolean} = {};
+
+    function courseSuffix(course: Course): string {
+        const studyProgram = data.studyPrograms.find(program => program.id === course.studyProgramId);
+        return studyProgram ? ` (${studyProgram.title})` : '';
+    }
 </script>
 
 <svelte:head>
@@ -72,7 +77,7 @@
             {#each data.courses as course, i}
                 <Panel bind:open={panelOpen[course.id]}>
                     <AccordionHeader>
-                        {course.title}
+                        {course.title}{courseSuffix(course)}
                         <IconButton slot="icon" toggle pressed={panelOpen[course.id]}>
                             <Icon class="material-icons" on>expand_less</Icon>
                             <Icon class="material-icons">expand_more</Icon>

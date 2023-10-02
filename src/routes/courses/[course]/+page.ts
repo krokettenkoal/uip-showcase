@@ -1,6 +1,6 @@
 import type {PageData, PageLoad, PageLoadEvent} from "./$types";
 import {CourseApi, SessionApi} from "$lib/api";
-import {api} from "$lib/api/factory";
+import {api, getStudyProgram} from "$lib/api/factory";
 import {error} from "@sveltejs/kit";
 
 export const load: PageLoad = async ({fetch, params}: PageLoadEvent): Promise<PageData> => {
@@ -14,6 +14,7 @@ export const load: PageLoad = async ({fetch, params}: PageLoadEvent): Promise<Pa
     if(!course)
         throw error(404);
 
+    const studyProgram = await getStudyProgram(course.studyProgramId, fetch);
     const sessions = await sessionApi.getSessionsByCourse(courseId);
-    return {course, sessions};
+    return {course, sessions, studyProgram};
 }
