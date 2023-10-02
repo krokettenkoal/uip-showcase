@@ -40,13 +40,10 @@
         <Section>
             <IconButton on:click={() => menuOpen = !menuOpen} class="material-icons">menu</IconButton>
             <AppBarTitle>
-                <a href="/" id="app-bar-title">UIP Showcase</a>
+                <a href="/" id="app-bar-title">UAS Showcase</a>
             </AppBarTitle>
         </Section>
         <Section align="end">
-            <IconButton href="https://ecampus.fhstp.ac.at/course/view.php?id=31327" title="View course on eCampus" target="_blank">
-                <Fa icon={ciMoodle} />
-            </IconButton>
             <IconButton href="https://github.com/krokettenkoal/uip-showcase" title="View source code on GitHub" target="_blank">
                 <Fa icon={faGithub} />
             </IconButton>
