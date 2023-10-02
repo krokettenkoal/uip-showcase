@@ -163,9 +163,13 @@
             "type": "integer",
             "description": "The id of the example the source belongs to"
           },
-          "type": {
+          "typeId": {
             "type": "integer",
-            "description": "The type (language/framework) of the source. Can either be a `SourceType` or an integer (source type id)"
+            "description": "The type (language/framework) id of the source"
+          },
+          "title": {
+            "type": "string",
+            "description": "(optional) The title of the source code, e.g. 'index.html', 'main.js', to show instead of the source type name"
           },
           "code": {
             "type": "string",
