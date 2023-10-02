@@ -15,15 +15,14 @@
     import List, { Item, Text, Graphic, Separator, Subheader } from '@smui/list';
     import {Label} from '@smui/common';
     import Badge from '@smui-extra/badge';
+    import LinearProgress from '@smui/linear-progress';
     import Accordion, { Panel, Header as AccordionHeader, Content as AccordionContent } from '@smui-extra/accordion';
     import IconButton from '@smui/icon-button';
-    import {page} from "$app/stores";
-    import type {ShowcaseSession} from "$lib/showcase/showcase";
+    import {navigating, page} from "$app/stores";
     import {Icon} from "@smui/button";
     import Fa from "svelte-fa";
     import {faGithub} from "@fortawesome/free-brands-svg-icons";
     import {title} from "$lib/stores";
-    import {ciMoodle} from "$lib/custom-icons";
     import type {Course, Session, StudyProgram} from "$lib/api";
 
     export let data: { sessions: Session[][], courses: Course[], studyPrograms: StudyProgram[] };
@@ -105,6 +104,9 @@
 </Drawer>
 <Scrim />
 <AutoAdjust {topAppBar}>
+    {#if $navigating}
+        <LinearProgress indeterminate />
+    {/if}
     <div id="content-wrapper">
         <slot />
     </div>
