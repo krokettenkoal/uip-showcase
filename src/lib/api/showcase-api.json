@@ -18,6 +18,10 @@
   ],
   "tags": [
     {
+      "name": "studyprogram",
+      "description": "Study program related endpoints"
+    },
+    {
       "name": "course",
       "description": "Course related endpoints"
     },
@@ -40,6 +44,30 @@
   ],
   "components": {
     "schemas": {
+      "StudyProgram": {
+        "title": "StudyProgram",
+        "type": "object",
+        "description": "A study program at St. Pölten UAS",
+        "required": [
+          "id",
+          "title",
+          "subtitle"
+        ],
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "The study program id"
+          },
+          "title": {
+            "type": "string",
+            "description": "The study program title (acronym)"
+          },
+          "subtitle": {
+            "type": "string",
+            "description": "The study program subtitle (full name)"
+          }
+        }
+      },
       "Course": {
         "title": "Course",
         "type": "object",
@@ -47,7 +75,7 @@
         "required": [
           "id",
           "title",
-          "sessions"
+          "studyProgramId"
         ],
         "properties": {
           "id": {
@@ -61,6 +89,10 @@
           "subtitle": {
             "type": "string",
             "description": "The course subtitle (optional)"
+          },
+          "studyProgramId": {
+            "type": "integer",
+            "description": "The id of the study program the course belongs to"
           }
         }
       },
@@ -71,9 +103,7 @@
         "required": [
           "id",
           "courseId",
-          "title",
-          "component",
-          "sources"
+          "title"
         ],
         "properties": {
           "id": {
@@ -109,9 +139,7 @@
         "required": [
           "id",
           "sessionId",
-          "title",
-          "component",
-          "sources"
+          "title"
         ],
         "properties": {
           "id": {
@@ -140,7 +168,7 @@
           },
           "component": {
             "type": "string",
-            "description": "The name of the component showcasing the example, e.g. 'TodoList'"
+            "description": "The name of the component showcasing the example, e.g. 'TodoList' (optional)"
           }
         }
       },
@@ -151,8 +179,9 @@
         "required": [
           "id",
           "exampleId",
-          "type",
-          "code"
+          "typeId",
+          "code",
+          "priority"
         ],
         "properties": {
           "id": {
@@ -169,11 +198,16 @@
           },
           "title": {
             "type": "string",
-            "description": "(optional) The title of the source code, e.g. 'index.html', 'main.js', to show instead of the source type name"
+            "description": "The title of the source code, e.g. 'index.html', 'main.js', to show instead of the source type name (optional)"
           },
           "code": {
             "type": "string",
             "description": "The source code"
+          },
+          "priority": {
+            "type": "integer",
+            "description": "The priority of the source code, affecting the order of the sources in the UI. The higher the priority, the farther the source code tab is to the left. Defaults to 0.",
+            "default": 0
           }
         }
       },
@@ -538,6 +572,70 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/SourceType"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/studyprogram": {
+      "get": {
+        "operationId": "getStudyPrograms",
+        "summary": "All study programs",
+        "description": "Retrieve all study programs.",
+        "tags": [
+          "studyprogram"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/StudyProgram"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/studyprogram/{programId}": {
+      "get": {
+        "operationId": "getStudyProgramById",
+        "summary": "Study program by id",
+        "description": "Retrieve a study program by its id.",
+        "tags": [
+          "studyprogram"
+        ],
+        "parameters": [
+          {
+            "name": "programId",
+            "description": "The id of the study program to retrieve",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StudyProgram"
                 }
               }
             }
