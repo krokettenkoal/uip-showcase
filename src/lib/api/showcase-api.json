@@ -6,14 +6,13 @@
     "version": "1.0.0"
   },
   "servers": [
-
     {
-      "url": "http://localhost:8888/showcase/api/public",
+      "url": "http://localhost:8888/api",
       "description": "Local development server"
     },
     {
-      "url": "https://mt201096.students.fhstp.ac.at/showcase/api/public",
-      "description": "SHEEP API server"
+      "url": "https://lbgrillc-20025.php.fhstp.cc/api",
+      "description": "CampusCloud API server"
     }
   ],
   "tags": [
@@ -93,6 +92,10 @@
           "studyProgramId": {
             "type": "integer",
             "description": "The id of the study program the course belongs to"
+          },
+          "moodleUrl": {
+            "type": "string",
+            "description": "The URL of the course in Moodle aka eCampus (optional)"
           }
         }
       },
