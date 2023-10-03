@@ -24,6 +24,7 @@
     import {faGithub} from "@fortawesome/free-brands-svg-icons";
     import {title} from "$lib/stores";
     import type {Course, Session, StudyProgram} from "$lib/api";
+    import config from "$lib/config/site.config";
 
     export let data: { sessions: Session[][], courses: Course[], studyPrograms: StudyProgram[] };
 
@@ -37,7 +38,7 @@
 
 <svelte:head>
     <title>
-        {$title ? $title + ' | ' : ''}UAS Showcase
+        {$title ? $title + ' | ' : ''}{config.siteName}
     </title>
 </svelte:head>
 
@@ -46,7 +47,7 @@
         <Section>
             <IconButton on:click={() => menuOpen = !menuOpen} class="material-icons">menu</IconButton>
             <AppBarTitle>
-                <a href="/" id="app-bar-title">UAS Showcase</a>
+                <a href="/" id="app-bar-title">{config.siteName}</a>
             </AppBarTitle>
         </Section>
         <Section align="end">
@@ -58,7 +59,7 @@
 </TopAppBar>
 <Drawer variant="modal" bind:open={menuOpen}>
     <Header>
-        <Title>UIP Showcase</Title>
+        <Title>{config.siteName}</Title>
         <Subtitle>Try lecture examples first-hand.</Subtitle>
     </Header>
     <Content>
