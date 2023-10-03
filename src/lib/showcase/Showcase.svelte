@@ -26,7 +26,7 @@
         if(!sourceType?.language)
             return xml;
 
-        return (await import(/* @vite-ignore */ `../../../node_modules/svelte-highlight/languages/${sourceType.language}`)).default;
+        return (await import(`../../../node_modules/svelte-highlight/languages/${sourceType.language}`)).default;
     }
 
     function sortSource(a: Source, b: Source): number {
@@ -40,7 +40,7 @@
         types = await Promise.all(sources.map(src => sourceTypeApi.getSourceTypeById(src.typeId)));
 
         try {
-            style = (await import(/* @vite-ignore */ `../../../node_modules/svelte-highlight/styles/github${themeSuffix}.css?inline`)).default;
+            style = (await import(`../../../node_modules/svelte-highlight/styles/github${themeSuffix}.css?inline`)).default;
         }
         catch (e) {
             console.warn(`Failed to load code style for current theme!`);
