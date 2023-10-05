@@ -12,3 +12,6 @@ vite.config.ts.timestamp-*
 /src/lib/api/**/*.*
 !/src/lib/api/showcase-api.json
 !/src/lib/api/factory.ts
+/.idea/deployment.xml
+/.idea/sshConfigs.xml
+/.idea/webServers.xml
