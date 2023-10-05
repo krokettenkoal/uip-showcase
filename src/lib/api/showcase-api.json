@@ -7,8 +7,8 @@
   },
   "servers": [
     {
-      "url": "http://localhost:8888/api",
-      "description": "Local development server"
+      "url": "/api",
+      "description": "Local API server"
     },
     {
       "url": "https://lbgrillc-20025.php.fhstp.cc/api",
@@ -269,7 +269,7 @@
         }
       }
     },
-    "/course/{courseId}": {
+    "/course/find": {
       "get": {
         "operationId": "getCourseById",
         "summary": "Course by id",
@@ -278,8 +278,8 @@
           "course"
         ],
         "parameters": [{
-            "name": "courseId",
-            "in": "path",
+            "name": "id",
+            "in": "query",
             "required": true,
             "schema": {
                 "type": "integer"
@@ -311,7 +311,7 @@
           "session"
         ],
         "parameters": [{
-          "name": "courseId",
+          "name": "course",
           "description": "The id of the course to retrieve the sessions for",
           "in": "query",
           "required": true,
@@ -339,7 +339,7 @@
         }
       }
     },
-    "/session/{sessionId}": {
+    "/session/find": {
       "get": {
         "operationId": "getSessionById",
         "summary": "Session by id",
@@ -349,9 +349,9 @@
         ],
         "parameters": [
           {
-            "name": "sessionId",
+            "name": "id",
             "description": "The id of the session to retrieve",
-            "in": "path",
+            "in": "query",
             "required": true,
             "schema": {
               "type": "integer"
@@ -384,7 +384,7 @@
           "example"
         ],
         "parameters": [{
-          "name": "sessionId",
+          "name": "session",
           "description": "The id of the session to retrieve the examples for",
           "in": "query",
           "required": true,
@@ -412,7 +412,7 @@
         }
       }
     },
-    "/example/{exampleId}": {
+    "/example/find": {
       "get": {
         "operationId": "getExampleById",
         "summary": "Example by id",
@@ -422,9 +422,9 @@
         ],
         "parameters": [
           {
-            "name": "exampleId",
+            "name": "id",
             "description": "The id of the example to retrieve",
-            "in": "path",
+            "in": "query",
             "required": true,
             "schema": {
               "type": "integer"
@@ -457,7 +457,7 @@
           "source"
         ],
         "parameters": [{
-          "name": "exampleId",
+          "name": "example",
           "description": "The id of the example to retrieve the source codes for",
           "in": "query",
           "required": true,
@@ -485,7 +485,7 @@
         }
       }
     },
-    "/source/{sourceId}": {
+    "/source/find": {
       "get": {
         "operationId": "getSourceById",
         "summary": "Source by id",
@@ -495,9 +495,9 @@
         ],
         "parameters": [
           {
-            "name": "sourceId",
+            "name": "id",
             "description": "The id of the source code to retrieve",
-            "in": "path",
+            "in": "query",
             "required": true,
             "schema": {
               "type": "integer"
@@ -549,7 +549,7 @@
         }
       }
     },
-    "/sourcetype/{typeId}": {
+    "/sourcetype/find": {
       "get": {
         "operationId": "getSourceTypeById",
         "summary": "Source type by id",
@@ -559,9 +559,9 @@
         ],
         "parameters": [
           {
-            "name": "typeId",
+            "name": "id",
             "description": "The id of the source code type to retrieve",
-            "in": "path",
+            "in": "query",
             "required": true,
             "schema": {
               "type": "integer"
@@ -613,7 +613,7 @@
         }
       }
     },
-    "/studyprogram/{programId}": {
+    "/studyprogram/find": {
       "get": {
         "operationId": "getStudyProgramById",
         "summary": "Study program by id",
@@ -623,9 +623,9 @@
         ],
         "parameters": [
           {
-            "name": "programId",
+            "name": "id",
             "description": "The id of the study program to retrieve",
-            "in": "path",
+            "in": "query",
             "required": true,
             "schema": {
               "type": "integer"
