@@ -26,7 +26,7 @@
         if(!sourceType?.language)
             return xml;
 
-        return (await import(`../../../node_modules/svelte-highlight/languages/${sourceType.language}`)).default;
+        return (await import(`../../../node_modules/svelte-highlight/languages/${sourceType.language}.js`)).default;
     }
 
     function sortSource(a: Source, b: Source): number {

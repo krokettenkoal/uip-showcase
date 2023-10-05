@@ -8,6 +8,7 @@
     import Chip, { Set, Text } from '@smui/chips';
     import CardsContainer from "$lib/components/CardsContainer.svelte";
     import Hero, {Title, Content as HeroContent} from "$lib/components/hero";
+    import {base} from "$app/paths";
 
     export let data: { sessions: Session[][], courses: Course[], studyPrograms: StudyProgram[] };
 
@@ -42,7 +43,7 @@
                         </Set>
                     </Content>
                     <Actions>
-                        <Button href="/courses/{course.id}">
+                        <Button href="{base}/courses/{course.id}">
                             <Label>Go to course</Label>
                             <i class="material-icons" aria-hidden="true">arrow_forward</i>
                         </Button>

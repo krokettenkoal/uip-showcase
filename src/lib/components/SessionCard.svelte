@@ -7,6 +7,7 @@
     } from '@smui/card';
     import Button, {Icon, Label} from '@smui/button';
     import type {Session} from "$lib/api";
+    import {base} from "$app/paths";
 
     export let session: Session;
     export let i: number = 0;
@@ -26,7 +27,7 @@
     </Content>
     <Actions>
         <ActionButtons>
-            <Button href="/courses/{session.courseId}/{session.id}">
+            <Button href="{base}/courses/{session.courseId}/{session.id}">
                 <Label>View examples</Label>
                 <Icon class="material-icons">arrow_forward</Icon>
             </Button>

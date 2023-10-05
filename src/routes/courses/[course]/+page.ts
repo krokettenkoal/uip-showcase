@@ -14,7 +14,17 @@ export const load: PageLoad = async ({fetch, params}: PageLoadEvent): Promise<Pa
     if(!course)
         throw error(404);
 
-    const studyProgram = await getStudyProgram(course.studyProgramId, fetch);
-    const sessions = await sessionApi.getSessionsByCourse(courseId);
-    return {course, sessions, studyProgram};
+    try {
+        const studyProgram = await getStudyProgram(course.studyProgramId, fetch);
+        const sessions = await sessionApi.getSessionsByCourse(courseId);
+        return {course, sessions, studyProgram};
+    }
+    catch(e: any){
+        console.error(e);
+        throw error(e.response?.status ?? 500, {
+            message: e.message,
+            response: e.response
+        });
+    }
+
 }

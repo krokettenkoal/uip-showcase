@@ -7,12 +7,12 @@
   },
   "servers": [
     {
-      "url": "/api",
-      "description": "Local API server"
+      "url": "https://lbgrillc-20031.php.fhstp.cc/api",
+      "description": "CampusCloud API server"
     },
     {
-      "url": "https://lbgrillc-20025.php.fhstp.cc/api",
-      "description": "CampusCloud API server"
+      "url": "/api",
+      "description": "Local API server"
     }
   ],
   "tags": [

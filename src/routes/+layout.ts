@@ -15,6 +15,7 @@ export const load: LayoutLoad = async ({fetch}: LayoutLoadEvent): Promise<Layout
         const sessions = await Promise.all(courses.map(c => sessionApi.getSessionsByCourse(c.id)));
         return {studyPrograms, courses, sessions};
     } catch (e: any){
+        console.error(e);
         throw error(e.response?.status ?? 500, {
             message: e.message,
             response: e.response

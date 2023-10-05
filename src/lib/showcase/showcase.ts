@@ -3,12 +3,19 @@ import type {LanguageType} from "svelte-highlight/languages";
 import type {IconDefinition} from "@fortawesome/free-brands-svg-icons";
 import type {CustomIconDefinition} from "$lib/custom-icons";
 
+/**
+ * @deprecated
+ */
 export interface ExampleSource {
     title: string;
     code: string;
     icon?: IconDefinition|CustomIconDefinition;
     language?: LanguageType<string>;
 }
+
+/**
+ * @deprecated
+ */
 export interface ShowcaseExample {
     id: string;
     title: string;
@@ -20,6 +27,9 @@ export interface ShowcaseExample {
     props?: any;
 }
 
+/**
+ * @deprecated
+ */
 export interface ShowcaseSession {
     id: string;
     title: string;
@@ -31,6 +41,7 @@ export interface ShowcaseSession {
 
 /**
  * Loads all showcase sessions, including their examples.
+ * @deprecated
  */
 export const loadSessions = async (): Promise<ShowcaseSession[]> => {
     return (await Promise.all(Object.values(import.meta.glob("./sessions/*/index.ts")).map(i => i()))).map((e: any) => e.default as ShowcaseSession);
@@ -39,6 +50,7 @@ export const loadSessions = async (): Promise<ShowcaseSession[]> => {
 /**
  * Loads a single showcase session by its id.
  * @param session
+ * @deprecated
  */
 export const loadSession = async (session: string): Promise<ShowcaseSession|null> => {
     try {
@@ -50,6 +62,12 @@ export const loadSession = async (session: string): Promise<ShowcaseSession|null
     }
 }
 
+/**
+ *
+ * @param session
+ * @param example
+ * @deprecated
+ */
 export const loadExample = async (session: string, example: string): Promise<ShowcaseExample|null> => {
     try {
         const data = await import(`./sessions/${session}/examples/${example}/index.ts`);

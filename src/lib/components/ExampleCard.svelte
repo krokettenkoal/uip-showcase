@@ -11,6 +11,7 @@
     import {SourceApi} from "$lib/api";
     import {loadIcon} from "$lib/custom-icons";
     import {getSourceType} from "$lib/api/factory";
+    import {base} from "$app/paths";
 
     export let session: Session;
     export let example: Example;
@@ -54,7 +55,7 @@
         </ul>
     </Content>
     <Actions>
-        <Button href="/courses/{session.courseId}/{session.id}/{example.id}">
+        <Button href="{base}/courses/{session.courseId}/{session.id}/{example.id}">
             <Label>View example</Label>
             <Icon class="material-icons">arrow_forward</Icon>
         </Button>

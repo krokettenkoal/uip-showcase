@@ -25,6 +25,7 @@
     import {title} from "$lib/stores";
     import type {Course, Session, StudyProgram} from "$lib/api";
     import config from "$lib/config/site.config";
+    import {base} from "$app/paths";
 
     export let data: { sessions: Session[][], courses: Course[], studyPrograms: StudyProgram[] };
 
@@ -47,7 +48,7 @@
         <Section>
             <IconButton on:click={() => menuOpen = !menuOpen} class="material-icons">menu</IconButton>
             <AppBarTitle>
-                <a href="/" id="app-bar-title">{config.siteName}</a>
+                <a href="{base}/" id="app-bar-title">{config.siteName}</a>
             </AppBarTitle>
         </Section>
         <Section align="end">
@@ -64,11 +65,11 @@
     </Header>
     <Content>
         <List>
-            <Item href="/" activated={$page.url.pathname === '/'} on:click={() => menuOpen = !menuOpen}>
+            <Item href="{base}/" activated={$page.url.pathname === '/'} on:click={() => menuOpen = !menuOpen}>
                 <Graphic class="material-icons" aria-hidden="true">home</Graphic>
                 <Text>Home</Text>
             </Item>
-            <Item href="/courses" activated={$page.url.pathname === '/courses'} on:click={() => menuOpen = !menuOpen}>
+            <Item href="{base}/courses" activated={$page.url.pathname === '/courses'} on:click={() => menuOpen = !menuOpen}>
                 <Graphic class="material-icons" aria-hidden="true">integration_instructions</Graphic>
                 <Text>All courses</Text>
             </Item>
@@ -89,7 +90,7 @@
                     <AccordionContent>
                         <List>
                             {#each data.sessions[i] as session}
-                                <Item href="/courses/{course.id}/{session.id}" activated={$page.url.pathname === `/courses/${course.id}/${session.id}`} on:click={() => menuOpen = !menuOpen}>
+                                <Item href="{base}/courses/{course.id}/{session.id}" activated={$page.url.pathname === `/courses/${course.id}/${session.id}`} on:click={() => menuOpen = !menuOpen}>
                                     <Text>{session.title}</Text>
                                 </Item>
                             {:else}
