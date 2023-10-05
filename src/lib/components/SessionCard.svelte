@@ -14,7 +14,7 @@
 </script>
 
 <Card {...$$restProps} style="--i:{i}">
-    <Media class="card-media-16x9" aspectRatio="16x9" style="background-image:url(/img/sessions/{session.image || 'placeholder.jpg'})" />
+    <Media class="card-media-16x9" aspectRatio="16x9" style="background-image:url({base}/img/sessions/{session.image || 'placeholder.jpg'})" />
     <Content class="mdc-typography--body2">
         <h2 class="mdc-typography--headline6" style="margin: 0;">
             {session.title}
