@@ -5,6 +5,7 @@
     import {title} from "$lib/stores";
     import BackButton from "$lib/components/BackButton.svelte";
     import type {Course, Example, Session} from "$lib/api";
+    import {base} from "$app/paths";
 
     export let data: {course: Course, session: Session, examples: Example[]};
 
@@ -17,7 +18,7 @@
     });
 </script>
 
-<BackButton>
+<BackButton href="{base}/courses/{data.course.id}">
     Back to course ({data.course.title})
 </BackButton>
 

@@ -3,11 +3,12 @@
     import CardsContainer from "$lib/components/CardsContainer.svelte";
     import type {Course, Session, StudyProgram} from "$lib/api";
     import BackButton from "$lib/components/BackButton.svelte";
+    import {base} from "$app/paths";
 
     export let data: {course: Course, sessions: Session[], studyProgram: StudyProgram};
 </script>
 
-<BackButton>
+<BackButton href="{base}/courses">
     Courses
 </BackButton>
 
