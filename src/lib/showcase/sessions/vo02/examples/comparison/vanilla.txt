@@ -1,0 +1,9 @@
+// no types whatsoever, type can be changed on the fly
+let myName = "Luki";
+myName = 3;
+
+function sayHello(fromWho){
+    console.log("Hello, from " + fromWho + " to " + myName);
+}
+
+sayHello("BMT-3E");
