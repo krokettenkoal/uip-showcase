@@ -3,6 +3,8 @@ import {CourseApi, SessionApi} from "$lib/api";
 import {api, getStudyProgram} from "$lib/api/factory";
 import {error} from "@sveltejs/kit";
 
+export const ssr = false;
+
 export const load: PageLoad = async ({fetch, params}: PageLoadEvent): Promise<PageData> => {
     const courseApi = api(CourseApi, fetch);
     const sessionApi = api(SessionApi, fetch);
