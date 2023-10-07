@@ -22,8 +22,15 @@
 
     onMount(async () => {
         const sources = await sourceApi.getSourcesByExample(example.id);
-        types = await Promise.all(sources.map(src => getSourceType(src.typeId)));
+        types = await Promise.all(filterUnique(sources.map(s=>s.typeId)).map(t => getSourceType(t)));
     });
+
+    function filterUnique<T>(arr: Array<T>): Array<T> {
+        if (!(arr?.length))
+            return [];
+
+        return [...new Set(arr)];
+    }
 </script>
 
 <Card {...$$restProps} style="--i:{i}">
@@ -42,14 +49,14 @@
                 {#await loadIcon(src.icon)}
                     <Icon class="material-icons">code</Icon>
                 {:then icon}
-                <li title={src.title}>
-                    {#if icon}
-                        <Fa {icon} />
+                    <li title={src.title}>
+                        {#if icon}
+                            <Fa {icon} />
 
-                    {:else}
-                        {src.title}
-                    {/if}
-                </li>
+                        {:else}
+                            {src.title}
+                        {/if}
+                    </li>
                 {/await}
             {/each}
         </ul>
