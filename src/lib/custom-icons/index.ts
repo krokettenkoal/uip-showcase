@@ -8,13 +8,31 @@ export type CustomIconDefinition = Omit<IconDefinition, 'iconName'> & {iconName:
 
 export {ciSvelte, ciMoodle, ciTypeScript};
 
+const loadFactoryIcon = async (icon: string): Promise<IconDefinition|undefined> => {
+    return (await import("../../../node_modules/@fortawesome/free-brands-svg-icons/index.js"))[icon] as IconDefinition;
+}
+
+const loadCustomIcon = async (icon: string): Promise<CustomIconDefinition|undefined> => {
+    switch (icon) {
+        case "ciSvelte":
+            return ciSvelte;
+        case "ciMoodle":
+            return ciMoodle;
+        case "ciTypeScript":
+            return ciTypeScript;
+        default:
+            return undefined;
+    }
+}
+
+/**
+ * Loads an icon from the fontawesome library or from the custom icons
+ * @param icon The icon to load
+ */
 export const loadIcon = async (icon: string|undefined): Promise<IconDefinition|CustomIconDefinition|undefined> => {
     if(!icon)
         return undefined;
 
-    if(icon.startsWith("ci")){
-        return (await import(`./${icon}.js`)).default;
-    }
-
-    return (await import("../../../node_modules/@fortawesome/free-brands-svg-icons/index.js"))[icon] as IconDefinition;
+    const loader = icon.startsWith("ci") ? loadCustomIcon : loadFactoryIcon;
+    return loader(icon);
 }
