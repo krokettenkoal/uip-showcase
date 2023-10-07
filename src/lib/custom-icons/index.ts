@@ -13,8 +13,8 @@ export const loadIcon = async (icon: string|undefined): Promise<IconDefinition|C
         return undefined;
 
     if(icon.startsWith("ci")){
-        return (await import(`./${icon}`)).default;
+        return (await import(`./${icon}.js`)).default;
     }
 
-    return (await import("@fortawesome/free-brands-svg-icons"))[icon] as IconDefinition;
+    return (await import("../../../node_modules/@fortawesome/free-brands-svg-icons/index.js"))[icon] as IconDefinition;
 }
