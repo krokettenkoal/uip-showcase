@@ -12,6 +12,7 @@
     import type {LanguageType} from "svelte-highlight/languages";
     import {loadIcon} from "$lib/custom-icons";
     import {Icon} from "@smui/button";
+    import {onNavigate} from "$app/navigation";
 
     export let example: Example;
     export let component: (typeof SvelteComponent) | undefined = undefined;
@@ -46,6 +47,10 @@
             console.warn(`Failed to load code style for current theme!`);
             console.error(e);
         }
+    });
+
+    onNavigate(() => {
+        active = sources[0];
     });
 </script>
 
