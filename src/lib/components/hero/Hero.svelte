@@ -1,4 +1,4 @@
-<div class="hero" {...$$restProps}>
+<div {...$$restProps} class="hero">
     <div class="hero-content">
         <slot />
     </div>

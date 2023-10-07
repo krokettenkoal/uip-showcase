@@ -1,0 +1,653 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Showcase API",
+    "description": "API for FHStP Showcase",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://lbgrillc-20031.php.fhstp.cc/api",
+      "description": "CampusCloud API server"
+    },
+    {
+      "url": "/api",
+      "description": "Local API server"
+    }
+  ],
+  "tags": [
+    {
+      "name": "studyprogram",
+      "description": "Study program related endpoints"
+    },
+    {
+      "name": "course",
+      "description": "Course related endpoints"
+    },
+    {
+      "name": "session",
+      "description": "Session related endpoints"
+    },
+    {
+      "name": "example",
+      "description": "Example related endpoints"
+    },
+    {
+      "name": "source",
+      "description": "Source code related endpoints"
+    },
+    {
+      "name": "sourcetype",
+      "description": "Source code type related endpoints"
+    }
+  ],
+  "components": {
+    "schemas": {
+      "StudyProgram": {
+        "title": "StudyProgram",
+        "type": "object",
+        "description": "A study program at St. Pölten UAS",
+        "required": [
+          "id",
+          "title",
+          "subtitle"
+        ],
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "The study program id"
+          },
+          "title": {
+            "type": "string",
+            "description": "The study program title (acronym)"
+          },
+          "subtitle": {
+            "type": "string",
+            "description": "The study program subtitle (full name)"
+          }
+        }
+      },
+      "Course": {
+        "title": "Course",
+        "type": "object",
+        "description": "A course (LV) in a study program",
+        "required": [
+          "id",
+          "title",
+          "studyProgramId"
+        ],
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "The course id"
+          },
+          "title": {
+            "type": "string",
+            "description": "The course title"
+          },
+          "subtitle": {
+            "type": "string",
+            "description": "The course subtitle (optional)"
+          },
+          "studyProgramId": {
+            "type": "integer",
+            "description": "The id of the study program the course belongs to"
+          },
+          "moodleUrl": {
+            "type": "string",
+            "description": "The URL of the course in Moodle aka eCampus (optional)"
+          }
+        }
+      },
+      "Session": {
+        "title": "Session",
+        "type": "object",
+        "description": "A session (lecture or exercise) of a course",
+        "required": [
+          "id",
+          "courseId",
+          "title"
+        ],
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "The session id"
+          },
+          "courseId": {
+            "type": "integer",
+            "description": "The id of the course the session belongs to"
+          },
+          "title": {
+            "type": "string",
+            "description": "The session title, e.g. 'Lecture 1'"
+          },
+          "subtitle": {
+            "type": "string",
+            "description": "The session subtitle (optional)"
+          },
+          "image": {
+            "type": "string",
+            "description": "The session image (optional)"
+          },
+          "date": {
+            "type": "string",
+            "description": "The date of the session (optional)"
+          }
+        }
+      },
+      "Example": {
+        "title": "Example",
+        "type": "object",
+        "description": "A code example as demonstrated in a session",
+        "required": [
+          "id",
+          "sessionId",
+          "title"
+        ],
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "The example id"
+          },
+          "sessionId": {
+            "type": "integer",
+            "description": "The id of the session the example belongs to"
+          },
+          "title": {
+            "type": "string",
+            "description": "The example title, e.g. 'Example 1', To-do List'"
+          },
+          "subtitle": {
+            "type": "string",
+            "description": "The example subtitle (optional)"
+          },
+          "icon": {
+            "type": "string",
+            "description": "The example icon (optional)"
+          },
+          "image": {
+            "type": "string",
+            "description": "The example image (optional)"
+          },
+          "component": {
+            "type": "string",
+            "description": "The name of the component showcasing the example, e.g. 'TodoList' (optional)"
+          }
+        }
+      },
+      "Source": {
+        "title": "Source",
+        "type": "object",
+        "description": "A source code of an example",
+        "required": [
+          "id",
+          "exampleId",
+          "typeId",
+          "code",
+          "priority"
+        ],
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "The (internal) id of the source"
+          },
+          "exampleId": {
+            "type": "integer",
+            "description": "The id of the example the source belongs to"
+          },
+          "typeId": {
+            "type": "integer",
+            "description": "The type (language/framework) id of the source"
+          },
+          "title": {
+            "type": "string",
+            "description": "The title of the source code, e.g. 'index.html', 'main.js', to show instead of the source type name (optional)"
+          },
+          "code": {
+            "type": "string",
+            "description": "The source code"
+          },
+          "priority": {
+            "type": "integer",
+            "description": "The priority of the source code, affecting the order of the sources in the UI. The higher the priority, the farther the source code tab is to the left. Defaults to 0.",
+            "default": 0
+          }
+        }
+      },
+      "SourceType": {
+        "title": "SourceType",
+        "type": "object",
+        "description": "A type (language/framework) of a source code",
+        "required": [
+          "id",
+          "title"
+        ],
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "The (internal) id of the source type"
+          },
+          "title": {
+            "type": "string",
+            "description": "The title of the source type, e.g. 'Svelte', 'React', 'Vanilla', 'HTML', 'CSS', 'JavaScript'"
+          },
+          "icon": {
+            "type": "string",
+            "description": "The icon of the source type (optional)"
+          },
+          "language": {
+            "type": "string",
+            "description": "The language of the source type used for syntax highlighting (optional)"
+          }
+        }
+      }
+    }
+  },
+  "paths": {
+    "/course": {
+      "get": {
+        "operationId": "getCourses",
+        "summary": "All courses",
+        "description": "Retrieve all courses.",
+        "tags": [
+          "course"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Course"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/course/find": {
+      "get": {
+        "operationId": "getCourseById",
+        "summary": "Course by id",
+        "description": "Retrieve a course by its id.",
+        "tags": [
+          "course"
+        ],
+        "parameters": [{
+            "name": "id",
+            "in": "query",
+            "required": true,
+            "schema": {
+                "type": "integer"
+            }
+        }],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Course"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/session": {
+      "get": {
+        "operationId": "getSessionsByCourse",
+        "summary": "Sessions by course",
+        "description": "Retrieve all sessions of a specific course.",
+        "tags": [
+          "session"
+        ],
+        "parameters": [{
+          "name": "course",
+          "description": "The id of the course to retrieve the sessions for",
+          "in": "query",
+          "required": true,
+          "schema": {
+            "type": "integer"
+          }
+        }],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                      "$ref": "#/components/schemas/Session"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/session/find": {
+      "get": {
+        "operationId": "getSessionById",
+        "summary": "Session by id",
+        "description": "Retrieve a session by its id.",
+        "tags": [
+          "session"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "description": "The id of the session to retrieve",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Session"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/example": {
+      "get": {
+        "operationId": "getExamplesBySession",
+        "summary": "Examples by session",
+        "description": "Retrieve all examples of a specific session.",
+        "tags": [
+          "example"
+        ],
+        "parameters": [{
+          "name": "session",
+          "description": "The id of the session to retrieve the examples for",
+          "in": "query",
+          "required": true,
+          "schema": {
+            "type": "integer"
+          }
+        }],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Example"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/example/find": {
+      "get": {
+        "operationId": "getExampleById",
+        "summary": "Example by id",
+        "description": "Retrieve an example by its id.",
+        "tags": [
+          "example"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "description": "The id of the example to retrieve",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Example"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/source": {
+      "get": {
+        "operationId": "getSourcesByExample",
+        "summary": "Sources by example",
+        "description": "Retrieve all source codes of a specific example.",
+        "tags": [
+          "source"
+        ],
+        "parameters": [{
+          "name": "example",
+          "description": "The id of the example to retrieve the source codes for",
+          "in": "query",
+          "required": true,
+          "schema": {
+            "type": "integer"
+          }
+        }],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Source"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/source/find": {
+      "get": {
+        "operationId": "getSourceById",
+        "summary": "Source by id",
+        "description": "Retrieve a source code by its id.",
+        "tags": [
+          "source"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "description": "The id of the source code to retrieve",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Source"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/sourcetype": {
+      "get": {
+        "operationId": "getSourceTypes",
+        "summary": "All source types",
+        "description": "Retrieve all source code types.",
+        "tags": [
+          "sourcetype"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/SourceType"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/sourcetype/find": {
+      "get": {
+        "operationId": "getSourceTypeById",
+        "summary": "Source type by id",
+        "description": "Retrieve a source code type by its id.",
+        "tags": [
+          "sourcetype"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "description": "The id of the source code type to retrieve",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SourceType"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/studyprogram": {
+      "get": {
+        "operationId": "getStudyPrograms",
+        "summary": "All study programs",
+        "description": "Retrieve all study programs.",
+        "tags": [
+          "studyprogram"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/StudyProgram"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+    "/studyprogram/find": {
+      "get": {
+        "operationId": "getStudyProgramById",
+        "summary": "Study program by id",
+        "description": "Retrieve a study program by its id.",
+        "tags": [
+          "studyprogram"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "description": "The id of the study program to retrieve",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StudyProgram"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    }
+  }
+}

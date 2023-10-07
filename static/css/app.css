@@ -2,6 +2,23 @@ body {
     margin: 0;
     background-image: var(--bg-gradient);
     min-height: 100vh;
+
+    --scrollbar-foreground: var(--mdc-theme-secondary);
+    --scrollbar-background: var(--mdc-theme-surface);
+    --scrollbar-size: 8px;
+    /* Foreground, Background */
+    scrollbar-color: var(--scrollbar-foreground) var(--scrollbar-background);
+}
+body::-webkit-scrollbar {
+    width: var(--scrollbar-size); /* Mostly for vertical scrollbars */
+    height: var(--scrollbar-size); /* Mostly for horizontal scrollbars */
+}
+body::-webkit-scrollbar-thumb { /* Foreground */
+    border-radius: .5rem;
+    background: var(--scrollbar-foreground);
+}
+body::-webkit-scrollbar-track { /* Background */
+    background: var(--scrollbar-background);
 }
 
 @-webkit-keyframes hero-bg {
@@ -18,4 +35,32 @@ body {
     0%{background-position:99% 0}
     50%{background-position:2% 100%}
     100%{background-position:99% 0}
+}
+@keyframes fly-in-Y {
+    0% {
+        transform: translateY(2rem);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: unset;
+    }
+}
+@keyframes fly-in-X {
+    0% {
+        transform: translateX(-2rem);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: unset;
+    }
+}
+@keyframes fade-in {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: unset;
+    }
 }

@@ -13,7 +13,7 @@
         background-size: 200% 200%;
         -webkit-animation: hero-bg 30s ease infinite;
         -moz-animation: hero-bg 30s ease infinite;
-        animation: hero-bg 30s ease infinite;
+        animation: hero-bg 30s ease infinite, fly-in-Y 500ms ease-out 0ms 1 both;
         text-align: center;
     }
 

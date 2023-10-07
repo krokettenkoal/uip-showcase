@@ -1,5 +1,4 @@
 <script lang="ts">
-    import type {ShowcaseSession, ShowcaseExample} from "$lib/showcase/showcase";
     import Card, {
         Content,
         Media,
@@ -7,36 +6,56 @@
     } from '@smui/card';
     import Button, {Icon, Label} from '@smui/button';
     import Fa from "svelte-fa";
+    import type {Example, Session, SourceType} from "$lib/api";
+    import {onMount} from "svelte";
+    import {SourceApi} from "$lib/api";
+    import {loadIcon} from "$lib/custom-icons";
+    import {getSourceType} from "$lib/api/factory";
+    import {base} from "$app/paths";
 
-    export let session: ShowcaseSession;
-    export let example: ShowcaseExample;
+    export let session: Session;
+    export let example: Example;
+    export let i: number = 0;
+
+    const sourceApi = new SourceApi();
+    let types: SourceType[] = [];
+
+    onMount(async () => {
+        const sources = await sourceApi.getSourcesByExample(example.id);
+        types = await Promise.all(sources.map(src => getSourceType(src.typeId)));
+    });
 </script>
 
-<Card class="example">
-    <Media class="card-media-16x9" aspectRatio="16x9" style="background-image:url(/img/examples/{example.image || 'placeholder.jpg'})" />
+<Card {...$$restProps} style="--i:{i}">
+    <Media class="card-media-16x9" aspectRatio="16x9" style="background-image:url({base}/img/examples/{example.image || 'placeholder.jpg'})" />
     <Content class="mdc-typography--body2">
         <h2 class="mdc-typography--headline6" style="margin: 0;">
             {example.title}
         </h2>
         {#if example.subtitle}
-            <h3 class="mdc-typography--subtitle2" style="margin: 0 0 10px; color: #888;">
+            <p class="mdc-typography--subtitle2" style="margin: 0 0 10px; color: #888;">
                 {example.subtitle}
-            </h3>
+            </p>
         {/if}
         <ul class="sources">
-            {#each example.src as src (src.title)}
+            {#each types as src (src.id)}
+                {#await loadIcon(src.icon)}
+                    <Icon class="material-icons">code</Icon>
+                {:then icon}
                 <li title={src.title}>
-                    {#if src.icon}
-                        <Fa icon={src.icon} />
+                    {#if icon}
+                        <Fa {icon} />
+
                     {:else}
                         {src.title}
                     {/if}
                 </li>
+                {/await}
             {/each}
         </ul>
     </Content>
     <Actions>
-        <Button href="/showcase/{session.id}/{example.id}">
+        <Button href="{base}/courses/{session.courseId}/{session.id}/{example.id}">
             <Label>View example</Label>
             <Icon class="material-icons">arrow_forward</Icon>
         </Button>
@@ -44,10 +63,6 @@
 </Card>
 
 <style>
-    :global(.example) {
-        min-width: 18rem;
-    }
-
     ul.sources {
         list-style: none;
         padding: 0;
@@ -57,11 +72,5 @@
         row-gap: .5rem;
         font-size: 1.5rem;
         color: var(--mdc-theme-text-hint-on-background);
-    }
-
-    @media screen and (min-width: 768px){
-        :global(.example) {
-            max-width: 20rem;
-        }
     }
 </style>

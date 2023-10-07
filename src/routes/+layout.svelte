@@ -13,24 +13,33 @@
         Scrim,
     } from '@smui/drawer';
     import List, { Item, Text, Graphic, Separator, Subheader } from '@smui/list';
+    import {Label} from '@smui/common';
+    import Badge from '@smui-extra/badge';
+    import LinearProgress from '@smui/linear-progress';
     import Accordion, { Panel, Header as AccordionHeader, Content as AccordionContent } from '@smui-extra/accordion';
     import IconButton from '@smui/icon-button';
-    import {page} from "$app/stores";
-    import type {ShowcaseSession} from "$lib/showcase/showcase";
+    import {navigating, page} from "$app/stores";
     import {Icon} from "@smui/button";
     import Fa from "svelte-fa";
     import {faGithub} from "@fortawesome/free-brands-svg-icons";
     import {title} from "$lib/stores";
-    import {ciMoodle} from "$lib/custom-icons";
+    import type {Course, Session, StudyProgram} from "$lib/api";
+    import config from "$lib/config/site.config";
+    import {base} from "$app/paths";
 
-    export let data: { sessions: ShowcaseSession[] };
+    export let data: { sessions: Session[][], courses: Course[], studyPrograms: StudyProgram[] };
 
     let topAppBar: TopAppBar, menuOpen: boolean = false, panelOpen: {[session: string]: boolean} = {};
+
+    function studyProgramName(course: Course): string {
+        const studyProgram = data.studyPrograms.find(program => program.id === course.studyProgramId);
+        return studyProgram?.title ?? "ALL";
+    }
 </script>
 
 <svelte:head>
     <title>
-        {$title ? $title + ' | ' : ''}UIP Showcase
+        {$title ? $title + ' | ' : ''}{config.siteName}
     </title>
 </svelte:head>
 
@@ -39,13 +48,10 @@
         <Section>
             <IconButton on:click={() => menuOpen = !menuOpen} class="material-icons">menu</IconButton>
             <AppBarTitle>
-                <a href="/" id="app-bar-title">UIP Showcase</a>
+                <a href="{base}/" id="app-bar-title">{config.siteName}</a>
             </AppBarTitle>
         </Section>
         <Section align="end">
-            <IconButton href="https://ecampus.fhstp.ac.at/course/view.php?id=31327" title="View course on eCampus" target="_blank">
-                <Fa icon={ciMoodle} />
-            </IconButton>
             <IconButton href="https://github.com/krokettenkoal/uip-showcase" title="View source code on GitHub" target="_blank">
                 <Fa icon={faGithub} />
             </IconButton>
@@ -54,41 +60,41 @@
 </TopAppBar>
 <Drawer variant="modal" bind:open={menuOpen}>
     <Header>
-        <Title>UIP Showcase</Title>
+        <Title>{config.siteName}</Title>
         <Subtitle>Try lecture examples first-hand.</Subtitle>
     </Header>
     <Content>
         <List>
-            <Item href="/" activated={$page.url.pathname === '/'} on:click={() => menuOpen = !menuOpen}>
+            <Item href="{base}/" activated={$page.url.pathname === '/'} on:click={() => menuOpen = !menuOpen}>
                 <Graphic class="material-icons" aria-hidden="true">home</Graphic>
                 <Text>Home</Text>
             </Item>
-            <Item href="/showcase" activated={$page.url.pathname === '/showcase'} on:click={() => menuOpen = !menuOpen}>
+            <Item href="{base}/courses" activated={$page.url.pathname === '/courses'} on:click={() => menuOpen = !menuOpen}>
                 <Graphic class="material-icons" aria-hidden="true">integration_instructions</Graphic>
-                <Text>Library</Text>
+                <Text>All courses</Text>
             </Item>
 
             <Separator />
-            <Subheader tag="h6">Examples</Subheader>
+            <Subheader tag="h6">Courses</Subheader>
             <Accordion>
-            {#each data.sessions as session}
-                <Panel bind:open={panelOpen[session.id]}>
+            {#each data.courses as course, i}
+                <Panel bind:open={panelOpen[course.id]}>
                     <AccordionHeader>
-                        {session.title}
-                        <IconButton slot="icon" toggle pressed={panelOpen[session.id]}>
+                        <Label>{course.title}</Label>
+                        <IconButton slot="icon" toggle pressed={panelOpen[course.id]}>
+                            <Badge class="program-badge" position="outset" align="middle-start">{studyProgramName(course)}</Badge>
                             <Icon class="material-icons" on>expand_less</Icon>
                             <Icon class="material-icons">expand_more</Icon>
                         </IconButton>
                     </AccordionHeader>
                     <AccordionContent>
                         <List>
-                            {#each session.examples as example}
-                                <Item href="/showcase/{session.id}/{example.id}" activated={$page.url.pathname === `/showcase/${session.id}/${example.id}`} on:click={() => menuOpen = !menuOpen}>
-                                    {#if example.icon}
-                                        <Graphic class="material-icons" aria-hidden="true">{example.icon}</Graphic>
-                                    {/if}
-                                    <Text>{example.title}</Text>
+                            {#each data.sessions[i] as session}
+                                <Item href="{base}/courses/{course.id}/{session.id}" activated={$page.url.pathname === `/courses/${course.id}/${session.id}`} on:click={() => menuOpen = !menuOpen}>
+                                    <Text>{session.title}</Text>
                                 </Item>
+                            {:else}
+                                <Item disabled><Text>No sessions found.</Text></Item>
                             {/each}
                         </List>
                     </AccordionContent>
@@ -100,6 +106,9 @@
 </Drawer>
 <Scrim />
 <AutoAdjust {topAppBar}>
+    {#if $navigating}
+        <LinearProgress indeterminate />
+    {/if}
     <div id="content-wrapper">
         <slot />
     </div>
@@ -123,6 +132,10 @@
 
     #content-wrapper {
         padding: 1rem;
+    }
+
+    :global(.program-badge){
+        padding: 0 .5rem;
     }
 
     @media screen and (min-width: 1200px){

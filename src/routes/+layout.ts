@@ -1,9 +1,25 @@
 import type {LayoutData, LayoutLoad, LayoutLoadEvent} from "./$types";
-import {loadSessions} from "$lib/showcase/showcase";
+import {CourseApi, SessionApi, StudyprogramApi} from "$lib/api";
+import {api, studyProgramCache} from "$lib/api/factory";
+import {error} from "@sveltejs/kit";
 export const prerender = true;
+export const trailingSlash = 'always';
 
-export const load: LayoutLoad = async ({}: LayoutLoadEvent): Promise<LayoutData> => {
-    // Load all modules found inside showcase components folder
-    const sessions = await loadSessions();
-    return {sessions};
+export const load: LayoutLoad = async ({fetch}: LayoutLoadEvent): Promise<LayoutData> => {
+    const studyProgramApi = api(StudyprogramApi, fetch);
+    const courseApi = api(CourseApi, fetch);
+    const sessionApi = api(SessionApi, fetch);
+    try {
+        const studyPrograms = await studyProgramApi.getStudyPrograms();
+        studyProgramCache.add(...studyPrograms);
+        const courses = await courseApi.getCourses();
+        const sessions = await Promise.all(courses.map(c => sessionApi.getSessionsByCourse(c.id)));
+        return {studyPrograms, courses, sessions};
+    } catch (e: any){
+        console.error(e);
+        throw error(e.response?.status ?? 500, {
+            message: e.message,
+            response: e.response
+        });
+    }
 }
