@@ -7,7 +7,7 @@
         if(!sourceType?.language)
             return xml;
 
-        return (await import(`../../../../node_modules/svelte-highlight/languages/${sourceType.language}.js`)).default;
+        return (await import(`../../../../node_modules/svelte-highlight/languages/${sourceType.language}.js`)).default ?? xml;
     }
 
     async function loadHighlightStyle(): Promise<string> {
@@ -56,9 +56,11 @@
     }
 
     onMount(async () => {
+        await updateHighlightStyle();
         const sourceTypeApi = new SourcetypeApi();
         types = await Promise.all(sources.map(src => sourceTypeApi.getSourceTypeById(src.typeId)));
-        await updateHighlightStyle();
+        active = sources[0];
+        activeType = types.find(t => t.id === active?.typeId)
     });
 
     onNavigate(() => {
