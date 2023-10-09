@@ -7,12 +7,14 @@
 </script>
 
 <Hero>
-    <Title>Oops, something went wrong! 😢</Title>
-    {#if dev}
+    <Title>Oops, something went wrong!</Title>
     <Content>
-        {$page.error?.message}
+        {#if dev}
+            {$page.error?.message}
+        {:else}
+            🥲
+        {/if}
     </Content>
-    {/if}
     <Actions>
         <Button href="{base}/">
             <Icon class="material-icons">arrow_back</Icon>
