@@ -5,8 +5,8 @@ import {ModelCache} from "$lib/api/model-cache";
 import type {SourceType, StudyProgram} from "$lib/api/models";
 import {StudyprogramApi, SourcetypeApi} from "$lib/api";
 
-export const sourceTypeCache = new ModelCache<SourceType>();
-export const studyProgramCache = new ModelCache<StudyProgram>();
+export const sourceTypeCache: ModelCache<SourceType> = new ModelCache<SourceType>();
+export const studyProgramCache: ModelCache<StudyProgram> = new ModelCache<StudyProgram>();
 
 export function api<T extends runtime.BaseAPI>(cls: { new(cfg: Configuration): T ;}, fetchFn: FetchAPI): T {
     const cfg = new Configuration({fetchApi: fetchFn});
