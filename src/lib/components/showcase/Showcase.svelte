@@ -1,52 +1,64 @@
+<script lang="ts" context="module">
+    import defaultStyle from "svelte-highlight/styles/github-dark.css?inline";
+    import xml from "svelte-highlight/languages/xml";
+    import type {LanguageType} from "svelte-highlight/languages";
+
+    async function loadHighlightLanguage(sourceType: SourceType|undefined): Promise<LanguageType<string>> {
+        if(!sourceType?.language)
+            return xml;
+
+        return (await import(`../../../../node_modules/svelte-highlight/languages/${sourceType.language}.js`)).default;
+    }
+
+    async function loadHighlightStyle(): Promise<string> {
+        const themeSuffix = window.matchMedia("(prefers-color-scheme: dark)").matches ? "-dark" : "";
+        return (await import(`../../../../node_modules/svelte-highlight/styles/github${themeSuffix}.css?inline`)).default;
+    }
+
+</script>
 <script lang="ts">
     import Tab, { Label } from '@smui/tab';
     import TabBar from '@smui/tab-bar';
     import Highlight from "svelte-highlight";
-    import xml from "svelte-highlight/languages/xml";
-    import {onMount, SvelteComponent} from "svelte";
-    import defaultStyle from "svelte-highlight/styles/github-dark.css?inline";
+    import type {ComponentType} from "svelte";
+    import {onMount} from "svelte";
     import Fa from "svelte-fa";
     import Paper, {Content} from "@smui/paper";
-    import type {Example, Session, Source, SourceType} from "$lib/api";
+    import type {Example, Source, SourceType} from "$lib/api";
     import {SourcetypeApi} from "$lib/api";
-    import type {LanguageType} from "svelte-highlight/languages";
     import {loadIcon} from "$lib/custom-icons";
     import {Icon} from "@smui/button";
     import {onNavigate} from "$app/navigation";
 
     export let example: Example;
-    export let component: (typeof SvelteComponent) | undefined = undefined;
+    export let component: ComponentType | undefined = undefined;
     export let sources: Source[];
+    export let props: object|undefined = undefined;
 
-    let active: Source = sources[0], style: string = defaultStyle, types: SourceType[] = [], activeType: SourceType|undefined;
+    let active: Source = sources[0], types: SourceType[] = [], activeType: SourceType|undefined, highlightStyle: string = defaultStyle;
     $: activeType = types.find(t => t.id === active?.typeId);
 
     const key = (src: Source) => src.id;
-
-    async function getSourceLanguage(sourceType: SourceType|undefined): Promise<LanguageType<string>> {
-        if(!sourceType?.language)
-            return xml;
-
-        return (await import(`../../../node_modules/svelte-highlight/languages/${sourceType.language}.js`)).default;
-    }
 
     function sortSource(a: Source, b: Source): number {
         //  Sort by priority, then by id
         return (a.priority - b.priority) || (a.id - b.id);
     }
 
-    onMount(async () => {
-        const themeSuffix = window.matchMedia("(prefers-color-scheme: dark)").matches ? "-dark" : "";
-        const sourceTypeApi = new SourcetypeApi();
-        types = await Promise.all(sources.map(src => sourceTypeApi.getSourceTypeById(src.typeId)));
-
+    async function updateHighlightStyle(...args: any[]){
         try {
-            style = (await import(`../../../node_modules/svelte-highlight/styles/github${themeSuffix}.css?inline`)).default;
+            highlightStyle = await loadHighlightStyle();
         }
         catch (e) {
             console.warn(`Failed to load code style for current theme!`);
             console.error(e);
         }
+    }
+
+    onMount(async () => {
+        const sourceTypeApi = new SourcetypeApi();
+        types = await Promise.all(sources.map(src => sourceTypeApi.getSourceTypeById(src.typeId)));
+        await updateHighlightStyle();
     });
 
     onNavigate(() => {
@@ -55,7 +67,7 @@
 </script>
 
 <svelte:head>
-    {@html '<style>{style}</style>'}
+    {@html '<style>{highlightStyle}</style>'}
 </svelte:head>
 
 <article class="showcase">
@@ -68,7 +80,7 @@
     <section class="showcase-component">
         <Paper>
             <Content class="component">
-                <svelte:component this={component} {...$$restProps} />
+                <svelte:component this={component} {...props} />
             </Content>
         </Paper>
     </section>
@@ -94,7 +106,7 @@
                 </Label>
             </Tab>
         </TabBar>
-        {#await getSourceLanguage(activeType) then lang}
+        {#await loadHighlightLanguage(activeType) then lang}
             <Highlight language={lang} code={active.code} class="code" />
         {/await}
     </section>
