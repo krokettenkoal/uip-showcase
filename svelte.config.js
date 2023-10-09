@@ -1,4 +1,4 @@
-import adapter from '@sveltejs/adapter-static';
+import adapter from '@sveltejs/adapter-node';
 import { vitePreprocess } from '@sveltejs/kit/vite';
 
 /** @type {import('@sveltejs/kit').Config} */
@@ -14,10 +14,6 @@ const config = {
 		adapter: adapter(),
 		paths: {
 			base: '/app',
-		},
-		prerender: {
-			crawl: true,
-			entries: ['*'],
 		}
 	}
 };
