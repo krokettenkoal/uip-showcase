@@ -1,9 +1,9 @@
 import type {LayoutData, LayoutLoad, LayoutLoadEvent} from "./$types";
-import {CourseApi, SessionApi, StudyprogramApi} from "$lib/api";
+import {CourseApi, ResponseError, SessionApi, StudyprogramApi} from "$lib/api";
 import {api, studyProgramCache} from "$lib/api/factory";
 import {error} from "@sveltejs/kit";
-export const prerender = true;
-export const trailingSlash = 'always';
+
+//export const prerender = true;
 
 export const load: LayoutLoad = async ({fetch}: LayoutLoadEvent): Promise<LayoutData> => {
     const studyProgramApi = api(StudyprogramApi, fetch);
@@ -15,11 +15,11 @@ export const load: LayoutLoad = async ({fetch}: LayoutLoadEvent): Promise<Layout
         const courses = await courseApi.getCourses();
         const sessions = await Promise.all(courses.map(c => sessionApi.getSessionsByCourse(c.id)));
         return {studyPrograms, courses, sessions};
-    } catch (e: any){
+    } catch (e){
         console.error(e);
-        throw error(e.response?.status ?? 500, {
-            message: e.message,
-            response: e.response
-        });
+        if(e instanceof ResponseError)
+            throw error(e.response.status, e.response.statusText);
+
+        throw error(500);
     }
 }

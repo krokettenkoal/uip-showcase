@@ -7,10 +7,6 @@
   },
   "servers": [
     {
-      "url": "https://lbgrillc-20031.php.fhstp.cc/api",
-      "description": "CampusCloud API server"
-    },
-    {
       "url": "/api",
       "description": "Local API server"
     }
@@ -269,7 +265,7 @@
         }
       }
     },
-    "/course/find": {
+    "/course/{id}": {
       "get": {
         "operationId": "getCourseById",
         "summary": "Course by id",
@@ -279,7 +275,7 @@
         ],
         "parameters": [{
             "name": "id",
-            "in": "query",
+            "in": "path",
             "required": true,
             "schema": {
                 "type": "integer"
@@ -339,7 +335,7 @@
         }
       }
     },
-    "/session/find": {
+    "/session/{id}": {
       "get": {
         "operationId": "getSessionById",
         "summary": "Session by id",
@@ -351,7 +347,7 @@
           {
             "name": "id",
             "description": "The id of the session to retrieve",
-            "in": "query",
+            "in": "path",
             "required": true,
             "schema": {
               "type": "integer"
@@ -412,7 +408,7 @@
         }
       }
     },
-    "/example/find": {
+    "/example/{id}": {
       "get": {
         "operationId": "getExampleById",
         "summary": "Example by id",
@@ -424,7 +420,7 @@
           {
             "name": "id",
             "description": "The id of the example to retrieve",
-            "in": "query",
+            "in": "path",
             "required": true,
             "schema": {
               "type": "integer"
@@ -485,7 +481,7 @@
         }
       }
     },
-    "/source/find": {
+    "/source/{id}": {
       "get": {
         "operationId": "getSourceById",
         "summary": "Source by id",
@@ -497,7 +493,7 @@
           {
             "name": "id",
             "description": "The id of the source code to retrieve",
-            "in": "query",
+            "in": "path",
             "required": true,
             "schema": {
               "type": "integer"
@@ -549,7 +545,7 @@
         }
       }
     },
-    "/sourcetype/find": {
+    "/sourcetype/{id}": {
       "get": {
         "operationId": "getSourceTypeById",
         "summary": "Source type by id",
@@ -561,7 +557,7 @@
           {
             "name": "id",
             "description": "The id of the source code type to retrieve",
-            "in": "query",
+            "in": "path",
             "required": true,
             "schema": {
               "type": "integer"
@@ -613,7 +609,7 @@
         }
       }
     },
-    "/studyprogram/find": {
+    "/studyprogram/{id}": {
       "get": {
         "operationId": "getStudyProgramById",
         "summary": "Study program by id",
@@ -625,7 +621,7 @@
           {
             "name": "id",
             "description": "The id of the study program to retrieve",
-            "in": "query",
+            "in": "path",
             "required": true,
             "schema": {
               "type": "integer"

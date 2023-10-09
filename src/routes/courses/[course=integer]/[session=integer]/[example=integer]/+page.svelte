@@ -1,5 +1,5 @@
 <script lang="ts">
-    import Showcase from "$lib/showcase/Showcase.svelte";
+    import Showcase from "$lib/components/showcase/Showcase.svelte";
     import {onDestroy, SvelteComponent} from "svelte";
     import {title} from "$lib/stores/titleStore";
     import BackButton from "$lib/components/BackButton.svelte";
@@ -17,4 +17,4 @@
 <BackButton href="{base}/courses/{data.session.courseId}/{data.session.id}">
     {data.session.title}
 </BackButton>
-<Showcase {...data} />
+<Showcase example={data.example} component={data.component} sources={data.sources} />
