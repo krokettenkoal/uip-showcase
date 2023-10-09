@@ -2,7 +2,7 @@ import type {PageLoad, PageLoadEvent, PageData} from "./$types";
 import {error} from "@sveltejs/kit";
 import {api} from "$lib/api/factory";
 import {ExampleApi, ResponseError, SessionApi, SourceApi} from "$lib/api";
-import type {SvelteComponent} from "svelte";
+import type {ComponentType} from "svelte";
 
 export const load: PageLoad = async ({ params, fetch }: PageLoadEvent): Promise<PageData> => {
     const sessionId = Number(params.session);
@@ -18,7 +18,7 @@ export const load: PageLoad = async ({ params, fetch }: PageLoadEvent): Promise<
         const session = await sessionApi.getSessionById(sessionId);
         const example = await exampleApi.getExampleById(exampleId);
         const sources = await sourceApi.getSourcesByExample(exampleId);
-        let component: (typeof SvelteComponent) | undefined = undefined;
+        let component: ComponentType | undefined = undefined;
         if(example.component)
             component = (await import(`../../../../../lib/components/showcase/examples/${example.component}.svelte`))?.default;
 
