@@ -17,4 +17,4 @@
 <BackButton href="{base}/courses/{data.session.courseId}/{data.session.id}">
     {data.session.title}
 </BackButton>
-<Showcase {...data} />
+<Showcase example={data.example} component={data.component} sources={data.sources} />
