@@ -4,13 +4,10 @@ import type {Pool} from "mysql2/promise";
 
 declare global {
 	namespace App {
-		interface Error {
-			message: string;
-			response?: Response;
-		}
 		interface Locals {
 			db: Pool;
 		}
+		// interface Error { message: string; }
 		// interface PageData {}
 		// interface Platform {}
 	}
