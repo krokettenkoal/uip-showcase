@@ -3,6 +3,8 @@ import {CourseApi, ResponseError, SessionApi, StudyprogramApi} from "$lib/api";
 import {api, studyProgramCache} from "$lib/api/factory";
 import {error} from "@sveltejs/kit";
 
+export const prerender = true;
+
 export const load: LayoutLoad = async ({fetch}: LayoutLoadEvent): Promise<LayoutData> => {
     const studyProgramApi = api(StudyprogramApi, fetch);
     const courseApi = api(CourseApi, fetch);
