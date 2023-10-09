@@ -9,10 +9,6 @@
     {
       "url": "/api",
       "description": "Local API server"
-    },
-    {
-      "url": "https://lbgrillc-20031.php.fhstp.cc/api",
-      "description": "CampusCloud API server"
     }
   ],
   "tags": [
