@@ -1,9 +1,9 @@
 import type {PageLoad, PageLoadEvent, PageData} from "./$types";
-import {error, HttpError_1} from "@sveltejs/kit";
+import {error} from "@sveltejs/kit";
 import {api} from "$lib/api/factory";
-import {CourseApi, ExampleApi, ResponseError, SessionApi, SourcetypeApi} from "$lib/api";
+import {CourseApi, ExampleApi, ResponseError, SessionApi} from "$lib/api";
 
-export const load: PageLoad = async ({ params }: PageLoadEvent): Promise<PageData> => {
+export const load: PageLoad = async ({ params, fetch }: PageLoadEvent): Promise<PageData> => {
     const courseId = Number(params.course);
     const sessionId = Number(params.session);
     if(!courseId || !sessionId)
