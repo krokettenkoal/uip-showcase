@@ -20,7 +20,7 @@ export const load: PageLoad = async ({ params, fetch }: PageLoadEvent): Promise<
         const sources = await sourceApi.getSourcesByExample(exampleId);
         let component: ComponentType | undefined = undefined;
         if(example.component)
-            component = (await import(`../../../../../lib/components/showcase/examples/${example.component}.svelte`))?.default;
+            component = (await import(`../../../../../../lib/components/showcase/examples/${example.component}.svelte`))?.default;
 
         return {session, example, component, sources};
     }

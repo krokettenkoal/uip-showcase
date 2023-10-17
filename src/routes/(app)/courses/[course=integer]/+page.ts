@@ -23,5 +23,4 @@ export const load: PageLoad = async ({fetch, params}: PageLoadEvent): Promise<Pa
 
         throw error(500);
     }
-
 }

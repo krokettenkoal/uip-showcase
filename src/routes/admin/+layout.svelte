@@ -26,8 +26,9 @@
     import type {Course, Session, StudyProgram} from "$lib/api";
     import config from "$lib/config/site.config";
     import {base} from "$app/paths";
+    import type {Session as AuthSession} from '@auth/core/types';
 
-    export let data: { sessions: Session[][], courses: Course[], studyPrograms: StudyProgram[] };
+    export let data: { sessions: Session[][], courses: Course[], studyPrograms: StudyProgram[], authSession?: AuthSession };
 
     let topAppBar: TopAppBar, menuOpen: boolean = false, panelOpen: {[session: string]: boolean} = {};
 
@@ -39,7 +40,7 @@
 
 <svelte:head>
     <title>
-        {$title ? $title + ' | ' : ''}{config.siteName}
+        Admin | {$title ? $title + ' | ' : ''}{config.siteName}
     </title>
 </svelte:head>
 
@@ -48,7 +49,7 @@
         <Section>
             <IconButton on:click={() => menuOpen = !menuOpen} class="material-icons">menu</IconButton>
             <AppBarTitle>
-                <a href="{base}/" id="app-bar-title">{config.siteName}</a>
+                <a href="{base}/admin" id="app-bar-title">Admin | {config.siteName}</a>
             </AppBarTitle>
         </Section>
         <Section align="end">
@@ -60,47 +61,49 @@
 </TopAppBar>
 <Drawer variant="modal" bind:open={menuOpen}>
     <Header>
-        <Title>{config.siteName}</Title>
-        <Subtitle>Try lecture examples first-hand.</Subtitle>
+        <Title>Admin | {config.siteName}</Title>
+        <Subtitle>UAS Showcase Administration</Subtitle>
     </Header>
     <Content>
         <List>
-            <Item href="{base}/" activated={$page.url.pathname === '/'} on:click={() => menuOpen = !menuOpen}>
-                <Graphic class="material-icons" aria-hidden="true">home</Graphic>
-                <Text>Home</Text>
+            <Item href="{base}/admin" activated={$page.url.pathname === base+'/admin'} on:click={() => menuOpen = !menuOpen}>
+                <Graphic class="material-icons" aria-hidden="true">dashboard</Graphic>
+                <Text>Dashboard</Text>
             </Item>
-            <Item href="{base}/courses" activated={$page.url.pathname === '/courses'} on:click={() => menuOpen = !menuOpen}>
+            {#if data.authSession}
+            <Item href="{base}/admin/courses" activated={$page.url.pathname === base+'/admin/courses'} on:click={() => menuOpen = !menuOpen}>
                 <Graphic class="material-icons" aria-hidden="true">integration_instructions</Graphic>
-                <Text>All courses</Text>
+                <Text>Courses</Text>
             </Item>
 
             <Separator />
             <Subheader tag="h6">Courses</Subheader>
             <Accordion>
-            {#each data.courses as course, i}
-                <Panel bind:open={panelOpen[course.id]}>
-                    <AccordionHeader>
-                        <Label>{course.title}</Label>
-                        <IconButton slot="icon" toggle pressed={panelOpen[course.id]}>
-                            <Badge class="program-badge" position="outset" align="middle-start">{studyProgramName(course)}</Badge>
-                            <Icon class="material-icons" on>expand_less</Icon>
-                            <Icon class="material-icons">expand_more</Icon>
-                        </IconButton>
-                    </AccordionHeader>
-                    <AccordionContent>
-                        <List>
-                            {#each data.sessions[i] as session}
-                                <Item href="{base}/courses/{course.id}/{session.id}" activated={$page.url.pathname === `/courses/${course.id}/${session.id}`} on:click={() => menuOpen = !menuOpen}>
-                                    <Text>{session.title}</Text>
-                                </Item>
-                            {:else}
-                                <Item disabled><Text>No sessions found.</Text></Item>
-                            {/each}
-                        </List>
-                    </AccordionContent>
-                </Panel>
-            {/each}
+                {#each data.courses as course, i}
+                    <Panel bind:open={panelOpen[course.id]}>
+                        <AccordionHeader>
+                            <Label>{course.title}</Label>
+                            <IconButton slot="icon" toggle pressed={panelOpen[course.id]}>
+                                <Badge class="program-badge" position="outset" align="middle-start">{studyProgramName(course)}</Badge>
+                                <Icon class="material-icons" on>expand_less</Icon>
+                                <Icon class="material-icons">expand_more</Icon>
+                            </IconButton>
+                        </AccordionHeader>
+                        <AccordionContent>
+                            <List>
+                                {#each data.sessions[i] as session}
+                                    <Item href="{base}/admin/courses/{course.id}/{session.id}" activated={$page.url.pathname === base+`/admin/courses/${course.id}/${session.id}`} on:click={() => menuOpen = !menuOpen}>
+                                        <Text>{session.title}</Text>
+                                    </Item>
+                                {:else}
+                                    <Item disabled><Text>No sessions found.</Text></Item>
+                                {/each}
+                            </List>
+                        </AccordionContent>
+                    </Panel>
+                {/each}
             </Accordion>
+        {/if}
         </List>
     </Content>
 </Drawer>
