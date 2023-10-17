@@ -5,6 +5,7 @@
 <style>
     .actions {
         display: flex;
+        flex-flow: column nowrap;
         justify-content: space-evenly;
         animation: fade-in 900ms ease-out 400ms 1 both;
     }
