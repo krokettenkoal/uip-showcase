@@ -27,6 +27,7 @@
     import config from "$lib/config/site.config";
     import {base} from "$app/paths";
     import type {Session as AuthSession} from '@auth/core/types';
+    import UserPanel from "$lib/components/UserPanel.svelte";
 
     export let data: { sessions: Session[][], courses: Course[], studyPrograms: StudyProgram[], authSession?: AuthSession };
 
@@ -70,6 +71,7 @@
                 <Graphic class="material-icons" aria-hidden="true">dashboard</Graphic>
                 <Text>Dashboard</Text>
             </Item>
+
             {#if data.authSession}
             <Item href="{base}/admin/courses" activated={$page.url.pathname === base+'/admin/courses'} on:click={() => menuOpen = !menuOpen}>
                 <Graphic class="material-icons" aria-hidden="true">integration_instructions</Graphic>
@@ -80,7 +82,7 @@
             <Subheader tag="h6">Courses</Subheader>
             <Accordion>
                 {#each data.courses as course, i}
-                    <Panel bind:open={panelOpen[course.id]}>
+                    <Panel bind:open={panelOpen[course.id]} variant="unelevated">
                         <AccordionHeader>
                             <Label>{course.title}</Label>
                             <IconButton slot="icon" toggle pressed={panelOpen[course.id]}>
@@ -103,7 +105,13 @@
                     </Panel>
                 {/each}
             </Accordion>
-        {/if}
+            {/if}
+            <Separator />
+            <Item href="{base}/" on:click={() => menuOpen = !menuOpen}>
+                <Graphic class="material-icons" aria-hidden="true">exit_to_app</Graphic>
+                <Text>Exit administration</Text>
+            </Item>
+            <UserPanel session={data.authSession} />
         </List>
     </Content>
 </Drawer>

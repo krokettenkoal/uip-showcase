@@ -79,7 +79,7 @@
             <Subheader tag="h6">Courses</Subheader>
             <Accordion>
             {#each data.courses as course, i}
-                <Panel bind:open={panelOpen[course.id]}>
+                <Panel bind:open={panelOpen[course.id]} variant="unelevated">
                     <AccordionHeader>
                         <Label>{course.title}</Label>
                         <IconButton slot="icon" toggle pressed={panelOpen[course.id]}>
@@ -102,6 +102,12 @@
                 </Panel>
             {/each}
             </Accordion>
+
+            <Separator />
+            <Item href="{base}/admin" on:click={() => menuOpen = !menuOpen}>
+                <Graphic class="material-icons" aria-hidden="true">security</Graphic>
+                <Text>Administration</Text>
+            </Item>
         </List>
     </Content>
 </Drawer>

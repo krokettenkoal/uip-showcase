@@ -19,7 +19,7 @@
 </script>
 
 <Hero>
-    <Title>Dashboard</Title>
+    <Title>Administration</Title>
     <Content>
         {#if data.authSession}
             <span class="avatar" style={getAvatarStyle(data.authSession)} />
