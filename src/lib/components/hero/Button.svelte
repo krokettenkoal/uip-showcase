@@ -2,7 +2,7 @@
     import Button from "@smui/button";
 </script>
 
-<Button {...$$restProps} class="hero-btn {$$restProps.class}">
+<Button {...$$restProps} class="hero-btn {$$restProps.class ?? ''}" on:click>
     <slot />
 </Button>
 
