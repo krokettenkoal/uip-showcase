@@ -20,6 +20,8 @@
     import {StudyprogramApi} from "$lib/api";
     import {onMount} from "svelte";
     import {base} from "$app/paths";
+    import Fa from "svelte-fa";
+    import {ciMoodle} from "$lib/custom-icons";
 
     export let data: {courses: Course[], sessions: Session[][], studyPrograms: StudyProgram[]};
     export let form: ActionData;
@@ -71,7 +73,7 @@
     });
 </script>
 
-<h1 class="mdc-typography--headline3">Course administration</h1>
+<h1 class="mdc-typography--headline3">Courses</h1>
 
 <DataTable
         sortable
@@ -93,7 +95,7 @@
                 <!-- For non-numeric columns, icon comes second. -->
                 <IconButton class="material-icons">arrow_upward</IconButton>
             </Cell>
-            <Cell columnId="subtitle">
+            <Cell columnId="subtitle" style="width: 100%">
                 <Label>Full name</Label>
                 <IconButton class="material-icons">arrow_upward</IconButton>
             </Cell>
@@ -101,7 +103,7 @@
                 <Label>Study program</Label>
                 <IconButton class="material-icons">arrow_upward</IconButton>
             </Cell>
-            <Cell columnId="moodleUrl" sortable={false}>Moodle URL</Cell>
+            <Cell columnId="moodleUrl" sortable={false}>Moodle</Cell>
             <Cell numeric columnId="sessions">
                 <IconButton class="material-icons">arrow_upward</IconButton>
                 <Label>Sessions</Label>
@@ -117,10 +119,20 @@
             <Cell>{course.title}</Cell>
             <Cell>{course.subtitle || '—'}</Cell>
             <Cell title={studyProgram?.subtitle ?? ''}>{studyProgram?.title ?? course.studyProgramId}</Cell>
-            <Cell>{course.moodleUrl || '—'}</Cell>
+            <Cell>
+                {#if course.moodleUrl}
+                <a class="icon-button moodle" href={course.moodleUrl} title="View course on eCampus" target="_blank">
+                    <Fa icon={ciMoodle} />
+                </a>
+                {:else}
+                    —
+                {/if}
+            </Cell>
             <Cell>{data.sessions[idx].length}</Cell>
             <Cell>
-                <IconButton class="material-icons" href="{base}/admin/courses/{course.id}" touch>edit</IconButton>
+                <a href="{base}/admin/courses/{course.id}" class="icon-button">
+                    <ButtonIcon class="material-icons">edit</ButtonIcon>
+                </a>
             </Cell>
         </Row>
     {/each}
@@ -299,5 +311,13 @@
         align-items: center;
         justify-content: center;
         column-gap: .5rem;
+    }
+
+    .icon-button {
+        color: var(--mdc-theme-primary);
+    }
+
+    .moodle {
+        color: #f98012;
     }
 </style>
