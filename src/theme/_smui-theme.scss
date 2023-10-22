@@ -90,6 +90,16 @@ strong {
   @include snackbar.label-ink-color(theme.accessible-ink-color(color-palette.$green-500));
 }
 
+.mdc-snackbar.warn {
+  @include snackbar.fill-color(color-palette.$amber-500);
+  @include snackbar.label-ink-color(theme.accessible-ink-color(color-palette.$amber-500));
+}
+
+.mdc-snackbar.danger {
+  @include snackbar.fill-color(color-palette.$red-500);
+  @include snackbar.label-ink-color(theme.accessible-ink-color(color-palette.$red-500));
+}
+
 .btn-success {
   &.mdc-button,
   &.mdc-deprecated-list-item {
@@ -148,4 +158,8 @@ strong {
   }
 
   @include button.ripple-states(color-palette.$amber-600);
+}
+
+.btn-shaped-round {
+  @include button.shape-radius(100%);
 }
