@@ -80,7 +80,7 @@
         bind:sort
         bind:sortDirection
         on:SMUIDataTable:sorted={handleSort}
-        table$aria-label="Course list"
+        table$aria-label="All courses"
         style="width: 100%;"
 >
     <Head>
@@ -146,6 +146,20 @@
     </Button>
 </div>
 
+<Snackbar bind:this={snackbarSuccess} class="success">
+    <SnackbarLabel>Course has been created successfully.</SnackbarLabel>
+    <SnackbarActions>
+        <IconButton class="material-icons" title="Dismiss">close</IconButton>
+    </SnackbarActions>
+</Snackbar>
+
+<Snackbar bind:this={snackbarError} labelText={form?.error?.message} class="danger">
+    <SnackbarLabel>Course could not be created!</SnackbarLabel>
+    <SnackbarActions>
+        <IconButton class="material-icons" title="Dismiss">close</IconButton>
+    </SnackbarActions>
+</Snackbar>
+
 <Dialog id="course-create"
         bind:open={courseCreateOpen}
         aria-labelledby="course-create-title"
@@ -154,11 +168,11 @@
 >
     <Header>
         <Title id="course-create-title">
-            New course
+            Add new course
         </Title>
     </Header>
     <Content id="course-create-content">
-        <p>Create a new course for a study program.</p>
+        <p>Add a new course for a study program.</p>
         <form id="new-course" method="POST" action="?/create">
             <div class="form-group">
                 <Textfield
@@ -244,7 +258,7 @@
                 disabled={!newCourseTitle || !newCourseStudyProgram}
         >
             <ButtonIcon class="material-icons">library_add</ButtonIcon>
-            <ButtonLabel>Create</ButtonLabel>
+            <ButtonLabel>Add</ButtonLabel>
         </Button>
     </Actions>
 </Dialog>
@@ -265,24 +279,10 @@
             <ButtonLabel>Cancel</ButtonLabel>
         </Button>
         <Button on:click={createStudyProgram}>
-            <ButtonLabel>Create</ButtonLabel>
+            <ButtonLabel>Add</ButtonLabel>
         </Button>
     </Actions>
 </Dialog>
-
-<Snackbar bind:this={snackbarSuccess} class="success">
-    <SnackbarLabel>Course has been created successfully.</SnackbarLabel>
-    <SnackbarActions>
-        <IconButton class="material-icons" title="Dismiss">close</IconButton>
-    </SnackbarActions>
-</Snackbar>
-
-<Snackbar bind:this={snackbarError} labelText={form?.error?.message} class="danger">
-    <SnackbarLabel>Course could not be created!</SnackbarLabel>
-    <SnackbarActions>
-        <IconButton class="material-icons" title="Dismiss">close</IconButton>
-    </SnackbarActions>
-</Snackbar>
 
 <style>
     #course-create-open {
