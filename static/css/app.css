@@ -9,14 +9,17 @@ body {
     /* Foreground, Background */
     scrollbar-color: var(--scrollbar-foreground) var(--scrollbar-background);
 }
+
 body::-webkit-scrollbar {
     width: var(--scrollbar-size); /* Mostly for vertical scrollbars */
     height: var(--scrollbar-size); /* Mostly for horizontal scrollbars */
 }
+
 body::-webkit-scrollbar-thumb { /* Foreground */
     border-radius: .5rem;
     background: var(--scrollbar-foreground);
 }
+
 body::-webkit-scrollbar-track { /* Background */
     background: var(--scrollbar-background);
 }
