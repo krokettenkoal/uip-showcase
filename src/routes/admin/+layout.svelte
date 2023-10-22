@@ -74,13 +74,13 @@
     </Header>
     <Content>
         <List>
-            <Item href="{base}/admin" activated={$page.url.pathname === base+'/admin'} on:click={() => menuOpen = !menuOpen}>
+            <Item href="{base}/admin" activated={$page.url.pathname === (base+'/admin')} on:click={() => menuOpen = !menuOpen}>
                 <Graphic class="material-icons" aria-hidden="true">dashboard</Graphic>
                 <Text>Dashboard</Text>
             </Item>
 
             {#if data.authSession}
-            <Item href="{base}/admin/courses" activated={$page.url.pathname === base+'/admin/courses'} on:click={() => menuOpen = !menuOpen}>
+            <Item href="{base}/admin/courses" activated={$page.url.pathname === (base+'/admin/courses')} on:click={() => menuOpen = !menuOpen}>
                 <Graphic class="material-icons" aria-hidden="true">integration_instructions</Graphic>
                 <Text>Courses</Text>
             </Item>
@@ -101,7 +101,7 @@
                         <AccordionContent>
                             <List>
                                 {#each data.sessions[i] as session}
-                                    <Item href="{base}/admin/courses/{course.id}/{session.id}" activated={$page.url.pathname === base+`/admin/courses/${course.id}/${session.id}`} on:click={() => menuOpen = !menuOpen}>
+                                    <Item href="{base}/admin/courses/{course.id}/{session.id}" activated={$page.url.pathname === `${base}/admin/courses/${course.id}/${session.id}`} on:click={() => menuOpen = !menuOpen}>
                                         <Text>{session.title}</Text>
                                     </Item>
                                 {:else}
