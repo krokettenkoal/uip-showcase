@@ -29,7 +29,14 @@
     import type {Session as AuthSession} from '@auth/core/types';
     import UserPanel from "$lib/components/UserPanel.svelte";
 
-    export let data: { sessions: Session[][], courses: Course[], studyPrograms: StudyProgram[], authSession?: AuthSession };
+    export let data: {
+        sessions: Session[][],
+        courses: Course[],
+        studyPrograms: StudyProgram[],
+        authSession?: AuthSession,
+        repoOwner: string,
+        repoName: string
+    };
 
     let topAppBar: TopAppBar, menuOpen: boolean = false, panelOpen: {[session: string]: boolean} = {};
 
@@ -54,7 +61,7 @@
             </AppBarTitle>
         </Section>
         <Section align="end">
-            <IconButton href="https://github.com/krokettenkoal/uip-showcase" title="View source code on GitHub" target="_blank">
+            <IconButton href="https://github.com/{data.repoOwner}/{data.repoName}" title="View source code on GitHub" target="_blank">
                 <Fa icon={faGithub} />
             </IconButton>
         </Section>
