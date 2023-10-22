@@ -1,5 +1,5 @@
 <script lang="ts">
-    import Button, {Icon, Label} from "@smui/button/src/index.js";
+    import Button, {Icon, Label} from "@smui/button";
     import {page} from "$app/stores";
 
     let parent: string;
