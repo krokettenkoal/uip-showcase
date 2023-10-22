@@ -427,6 +427,44 @@
             "description": "Not Found"
           }
         }
+      },
+      "put": {
+        "operationId": "updateCourse",
+        "summary": "Update course",
+        "description": "Update details of an existing course.",
+        "tags": [
+          "course"
+        ],
+        "parameters": [{
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "integer"
+          }
+        }],
+        "requestBody": {
+          "description": "The course to update",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BaseCourse"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
       }
     },
     "/session": {
