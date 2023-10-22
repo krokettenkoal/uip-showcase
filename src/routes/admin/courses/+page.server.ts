@@ -2,7 +2,7 @@ import type { Actions } from './$types';
 import {fail} from "@sveltejs/kit";
 import {api} from "$lib/api/factory";
 import type {BaseCourse} from "$lib/api";
-import {CourseApi} from "$lib/api";
+import {CourseApi, ResponseError} from "$lib/api";
 
 export const actions = {
     create: async ({request, fetch}) => {
@@ -27,6 +27,10 @@ export const actions = {
             }
         }
         catch(e){
+            if(e instanceof ResponseError){
+                return fail(e.response.status, {error: e});
+            }
+
             return fail(500, {error: e});
         }
     },

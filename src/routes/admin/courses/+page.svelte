@@ -17,9 +17,9 @@
     import {Text} from "@smui/list";
     import Autocomplete from "@smui-extra/autocomplete";
     import Snackbar, { Label as SnackbarLabel, Actions as SnackbarActions } from '@smui/snackbar';
-    import Fab, { Label as FabLabel, Icon as FabIcon } from '@smui/fab';
     import {StudyprogramApi} from "$lib/api";
     import {onMount} from "svelte";
+    import {base} from "$app/paths";
 
     export let data: {courses: Course[], sessions: Session[][], studyPrograms: StudyProgram[]};
     export let form: ActionData;
@@ -32,7 +32,8 @@
         newCourseStudyProgramText: string = '',
         newStudyProgramTitle: string = '',
         newCourseStudyProgram: StudyProgram | undefined = form?.data?.studyProgramId ? data.studyPrograms.find(p => p.id === form?.data?.studyProgramId) : undefined,
-        snackbarSuccess: Snackbar;
+        snackbarSuccess: Snackbar,
+        snackbarError: Snackbar;
 
     const studyProgramApi = new StudyprogramApi();
 
@@ -65,7 +66,9 @@
     onMount(() => {
         if(form?.success)
             snackbarSuccess?.open();
-    })
+        else if(form?.error)
+            snackbarError?.open();
+    });
 </script>
 
 <h1 class="mdc-typography--headline3">Course administration</h1>
@@ -98,11 +101,12 @@
                 <Label>Study program</Label>
                 <IconButton class="material-icons">arrow_upward</IconButton>
             </Cell>
-            <Cell sortable={false}>Moodle URL</Cell>
+            <Cell columnId="moodleUrl" sortable={false}>Moodle URL</Cell>
             <Cell numeric columnId="sessions">
                 <IconButton class="material-icons">arrow_upward</IconButton>
                 <Label>Sessions</Label>
             </Cell>
+            <Cell columnId="edit" sortable={false}>Edit</Cell>
         </Row>
     </Head>
     <Body>
@@ -115,16 +119,19 @@
             <Cell title={studyProgram?.subtitle ?? ''}>{studyProgram?.title ?? course.studyProgramId}</Cell>
             <Cell>{course.moodleUrl || '—'}</Cell>
             <Cell>{data.sessions[idx].length}</Cell>
+            <Cell>
+                <IconButton class="material-icons" href="{base}/admin/courses/{course.id}" touch>edit</IconButton>
+            </Cell>
         </Row>
     {/each}
     </Body>
 </DataTable>
 
 <div id="course-create-open">
-    <Fab color="primary" on:click={() => courseCreateOpen = true} extended>
-        <FabIcon class="material-icons">add</FabIcon>
-        <FabLabel>New course</FabLabel>
-    </Fab>
+    <Button variant="outlined" color="primary" class="btn-shaped-round" on:click={() => courseCreateOpen = true}>
+        <ButtonIcon class="material-icons">add</ButtonIcon>
+        <ButtonLabel>New course</ButtonLabel>
+    </Button>
 </div>
 
 <Dialog id="course-create"
@@ -134,7 +141,9 @@
         fullscreen
 >
     <Header>
-        <Title id="course-create-title">New course</Title>
+        <Title id="course-create-title">
+            New course
+        </Title>
     </Header>
     <Content id="course-create-content">
         <p>Create a new course for a study program.</p>
@@ -169,7 +178,7 @@
                         textfield$invalid={form?.missing?.includes('studyProgramId')}
                 >
                     <div id="new-studyprogram-dropdown" slot="no-matches">
-                        <FabIcon class="material-icons">add</FabIcon>
+                        <ButtonIcon class="material-icons">add</ButtonIcon>
                         <Text>Add new</Text>
                     </div>
                 </Autocomplete>
@@ -251,6 +260,13 @@
 
 <Snackbar bind:this={snackbarSuccess} class="success">
     <SnackbarLabel>Course has been created successfully.</SnackbarLabel>
+    <SnackbarActions>
+        <IconButton class="material-icons" title="Dismiss">close</IconButton>
+    </SnackbarActions>
+</Snackbar>
+
+<Snackbar bind:this={snackbarError} labelText={form?.error?.message} class="danger">
+    <SnackbarLabel>Course could not be created!</SnackbarLabel>
     <SnackbarActions>
         <IconButton class="material-icons" title="Dismiss">close</IconButton>
     </SnackbarActions>
