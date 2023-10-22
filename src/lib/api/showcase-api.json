@@ -3,7 +3,7 @@
   "info": {
     "title": "Showcase API",
     "description": "API for FHStP Showcase",
-    "version": "1.0.0"
+    "version": "1.1.0"
   },
   "servers": [
     {
@@ -39,20 +39,14 @@
   ],
   "components": {
     "schemas": {
-      "StudyProgram": {
-        "title": "StudyProgram",
+      "BaseStudyProgram": {
+        "title": "BaseStudyProgram",
         "type": "object",
-        "description": "A study program at St. Pölten UAS",
+        "description": "Base class of a study program at St. Pölten UAS (used for creating a new study program)",
         "required": [
-          "id",
-          "title",
-          "subtitle"
+          "title"
         ],
         "properties": {
-          "id": {
-            "type": "integer",
-            "description": "The study program id"
-          },
           "title": {
             "type": "string",
             "description": "The study program title (acronym)"
@@ -63,20 +57,15 @@
           }
         }
       },
-      "Course": {
-        "title": "Course",
+      "BaseCourse": {
+        "title": "BaseCourse",
         "type": "object",
-        "description": "A course (LV) in a study program",
+        "description": "Base class of a course (LV) in a study program (used for creating a new course)",
         "required": [
-          "id",
           "title",
           "studyProgramId"
         ],
         "properties": {
-          "id": {
-            "type": "integer",
-            "description": "The course id"
-          },
           "title": {
             "type": "string",
             "description": "The course title"
@@ -95,20 +84,15 @@
           }
         }
       },
-      "Session": {
-        "title": "Session",
+      "BaseSession": {
+        "title": "BaseSession",
         "type": "object",
-        "description": "A session (lecture or exercise) of a course",
+        "description": "Base class of a session (lecture or exercise) of a course (used for creating a new session)",
         "required": [
-          "id",
           "courseId",
           "title"
         ],
         "properties": {
-          "id": {
-            "type": "integer",
-            "description": "The session id"
-          },
           "courseId": {
             "type": "integer",
             "description": "The id of the course the session belongs to"
@@ -131,20 +115,15 @@
           }
         }
       },
-      "Example": {
-        "title": "Example",
+      "BaseExample": {
+        "title": "BaseExample",
         "type": "object",
-        "description": "A code example as demonstrated in a session",
+        "description": "Base class of a code example as demonstrated in a session (used for creating a new example)",
         "required": [
-          "id",
           "sessionId",
           "title"
         ],
         "properties": {
-          "id": {
-            "type": "integer",
-            "description": "The example id"
-          },
           "sessionId": {
             "type": "integer",
             "description": "The id of the session the example belongs to"
@@ -171,22 +150,17 @@
           }
         }
       },
-      "Source": {
-        "title": "Source",
+      "BaseSource": {
+        "title": "BaseSource",
         "type": "object",
-        "description": "A source code of an example",
+        "description": "Base class of a source code of an example (used for creating a new source code)",
         "required": [
-          "id",
           "exampleId",
           "typeId",
           "code",
           "priority"
         ],
         "properties": {
-          "id": {
-            "type": "integer",
-            "description": "The (internal) id of the source"
-          },
           "exampleId": {
             "type": "integer",
             "description": "The id of the example the source belongs to"
@@ -210,19 +184,14 @@
           }
         }
       },
-      "SourceType": {
-        "title": "SourceType",
+      "BaseSourceType": {
+        "title": "BaseSourceType",
         "type": "object",
-        "description": "A type (language/framework) of a source code",
+        "description": "Base class of a type (language/framework) of a source code",
         "required": [
-          "id",
           "title"
         ],
         "properties": {
-          "id": {
-            "type": "integer",
-            "description": "The (internal) id of the source type"
-          },
           "title": {
             "type": "string",
             "description": "The title of the source type, e.g. 'Svelte', 'React', 'Vanilla', 'HTML', 'CSS', 'JavaScript'"
@@ -236,6 +205,134 @@
             "description": "The language of the source type used for syntax highlighting (optional)"
           }
         }
+      },
+      "StudyProgram": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/BaseStudyProgram"
+          },
+          {
+            "title": "StudyProgram",
+            "type": "object",
+            "description": "A study program at St. Pölten UAS",
+            "required": [
+              "id"
+            ],
+            "properties": {
+              "id": {
+                "type": "integer",
+                "description": "The study program id"
+              }
+            }
+          }
+        ]
+      },
+      "Course": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/BaseCourse"
+          },
+          {
+            "title": "Course",
+            "type": "object",
+            "description": "A course (LV) in a study program",
+            "required": [
+              "id"
+            ],
+            "properties": {
+              "id": {
+                "type": "integer",
+                "description": "The course id"
+              }
+            }
+          }
+        ]
+      },
+      "Session": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/BaseSession"
+          },
+          {
+            "title": "Session",
+            "type": "object",
+            "description": "A session (lecture or exercise) of a course",
+            "required": [
+              "id",
+              "courseId",
+              "title"
+            ],
+            "properties": {
+              "id": {
+                "type": "integer",
+                "description": "The session id"
+              }
+            }
+          }
+        ]
+      },
+      "Example": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/BaseExample"
+          },
+          {
+            "title": "Example",
+            "type": "object",
+            "description": "A code example as demonstrated in a session",
+            "required": [
+              "id"
+            ],
+            "properties": {
+              "id": {
+                "type": "integer",
+                "description": "The example id"
+              }
+            }
+          }
+        ]
+      },
+      "Source": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/BaseSource"
+          },
+          {
+            "title": "Source",
+            "type": "object",
+            "description": "A source code of an example",
+            "required": [
+              "id"
+            ],
+            "properties": {
+              "id": {
+                "type": "integer",
+                "description": "The (internal) id of the source"
+              }
+            }
+          }
+        ]
+      },
+      "SourceType": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/BaseSourceType"
+          },
+          {
+            "title": "SourceType",
+            "type": "object",
+            "description": "A type (language/framework) of a source code",
+            "required": [
+              "id"
+            ],
+            "properties": {
+              "id": {
+                "type": "integer",
+                "description": "The (internal) id of the source type"
+              }
+            }
+          }
+        ]
       }
     }
   },
@@ -263,6 +360,40 @@
             }
           }
         }
+      },
+      "post": {
+        "operationId": "createCourse",
+        "summary": "Create course",
+        "description": "Create a new course.",
+        "tags": [
+          "course"
+        ],
+        "requestBody": {
+          "description": "The course to create",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BaseCourse"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Course"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
       }
     },
     "/course/{id}": {
@@ -274,12 +405,12 @@
           "course"
         ],
         "parameters": [{
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-                "type": "integer"
-            }
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "integer"
+          }
         }],
         "responses": {
           "200": {
@@ -323,7 +454,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                      "$ref": "#/components/schemas/Session"
+                    "$ref": "#/components/schemas/Session"
                   }
                 }
               }
@@ -605,6 +736,40 @@
           },
           "404": {
             "description": "Not Found"
+          }
+        }
+      },
+      "post": {
+        "operationId": "createStudyProgram",
+        "summary": "Create study program",
+        "description": "Create a new study program.",
+        "tags": [
+          "studyprogram"
+        ],
+        "requestBody": {
+          "description": "The study program to create",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BaseStudyProgram"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StudyProgram"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
           }
         }
       }
