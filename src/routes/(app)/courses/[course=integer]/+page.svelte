@@ -16,7 +16,11 @@
     {data.course.title} – {data.course.subtitle}
 </h1>
 <p class="mdc-typography--subtitle2" style="margin: 0 0 10px; color: #888;">
-    {data.studyProgram.subtitle} ({data.studyProgram.title})
+    {#if data.studyProgram.subtitle}
+        {data.studyProgram.subtitle} ({data.studyProgram.title})
+    {:else}
+        {data.studyProgram.title}
+    {/if}
 </p>
 
 <CardsContainer>

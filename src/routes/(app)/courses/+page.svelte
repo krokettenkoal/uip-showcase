@@ -31,9 +31,11 @@
                         <h2 class="mdc-typography--headline3 course-name">
                             {course.title}
                         </h2>
+                        {#if course.subtitle}
                         <p class="mdc-typography--subtitle2 mdc-theme--text-disabled-on-background">
                             {course.subtitle}
                         </p>
+                        {/if}
                         <Set chips={[program?.title, sessionChip(sessions)]} let:chip nonInteractive>
                             {#if chip}
                             <Chip {chip}>
