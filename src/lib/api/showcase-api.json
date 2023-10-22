@@ -502,6 +502,40 @@
             "description": "Not Found"
           }
         }
+      },
+      "post": {
+        "operationId": "createSession",
+        "summary": "Create session",
+        "description": "Create a new session.",
+        "tags": [
+          "session"
+        ],
+        "requestBody": {
+          "description": "The session to create",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BaseSession"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Session"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
       }
     },
     "/session/{id}": {
