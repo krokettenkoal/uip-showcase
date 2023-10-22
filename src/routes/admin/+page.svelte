@@ -5,7 +5,6 @@
     import Fa from "svelte-fa";
     import {faGithub} from "@fortawesome/free-brands-svg-icons";
     import type {Session} from "@auth/core/types";
-    import {base} from "$app/paths";
 
     export let data: {authSession?: Session, repoOwner: string, repoName: string};
 
