@@ -143,7 +143,7 @@
                 <Textfield
                         use={[InitialFocus]}
                         input$name="title"
-                        input$minlength="2"
+                        input$minlength={2}
                         input$placeholder="BMT, BCC, MDH,..."
                         label="Acronym"
                         style="width: 100%;"
@@ -168,7 +168,6 @@
                         textfield$required
                         textfield$invalid={form?.missing?.includes('studyProgramId')}
                 >
-                    <FabIcon class="material-icons" slot="leadingIcon">text</FabIcon>
                     <div id="new-studyprogram-dropdown" slot="no-matches">
                         <FabIcon class="material-icons">add</FabIcon>
                         <Text>Add new</Text>
