@@ -11,7 +11,7 @@ export const actions = {
         const subtitle = data.get('subtitle') || null;
         const studyProgramId = data.get('studyProgramId');
         const moodleUrl = data.get('moodleUrl') || null;
-        const payload: BaseCourse = {title: String(title), studyProgramId: Number(studyProgramId), subtitle: subtitle as string, moodleUrl: moodleUrl as string};
+        const payload: BaseCourse = {title: String(title).trim(), studyProgramId: Number(studyProgramId), subtitle: (subtitle as string).trim(), moodleUrl: encodeURI((moodleUrl as string).trim())};
 
         if(!title || !studyProgramId){
             return fail(400, {data: payload, missing: [!title && 'title', !studyProgramId && 'studyProgramId']});
@@ -28,7 +28,7 @@ export const actions = {
         }
         catch(e){
             if(e instanceof ResponseError){
-                return fail(e.response.status, {error: e});
+                return fail(e.response.status, {error: {message: e.message}});
             }
 
             return fail(500, {error: e});
