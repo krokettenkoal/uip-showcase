@@ -5,12 +5,15 @@
 // Theme colors (Dark Theme)
 @use '@material/theme/index' as theme with (
   $primary: #005096,
-  $secondary: color.scale(#676778, $whiteness: -10%),
+  $secondary: color.scale(#CCE7FF, $whiteness: -30%),
   $surface: color.adjust(color-palette.$grey-900, $blue: +4),
   $background: #000,
   $error: color-palette.$red-700
 );
 
+@use '@material/button/mixins' as button;
+@use '@smui/snackbar/style' as smui-snackbar;
+@use '@material/snackbar/mixins' as snackbar;
 @use '@material/theme/styles';
 @use '@material/typography/mdc-typography';
 @use '@material/typography/mixins' as typography;
@@ -80,4 +83,69 @@ big {
 b,
 strong {
   font-weight: bold;
+}
+
+.mdc-snackbar.success {
+  @include snackbar.fill-color(color-palette.$green-500);
+  @include snackbar.label-ink-color(theme.accessible-ink-color(color-palette.$green-500));
+}
+
+.btn-success {
+  &.mdc-button,
+  &.mdc-deprecated-list-item {
+    @include button.ink-color(color-palette.$green-600);
+  }
+  &.mdc-button--unelevated,
+  &.mdc-button--raised,
+  &.mdc-deprecated-list-item--unelevated,
+  &.mdc-deprecated-list-item--raised {
+    @include button.filled-accessible(color-palette.$green-600);
+  }
+  &.mdc-button--outlined,
+  &.mdc-deprecated-list-item--outlined {
+    @include button.outline-color(color-palette.$green-600);
+    @include button.ink-color(color-palette.$green-600);
+  }
+
+  @include button.ripple-states(color-palette.$green-600);
+}
+
+.btn-danger {
+  &.mdc-button,
+  &.mdc-deprecated-list-item {
+    @include button.ink-color(color-palette.$red-600);
+  }
+  &.mdc-button--unelevated,
+  &.mdc-button--raised,
+  &.mdc-deprecated-list-item--unelevated,
+  &.mdc-deprecated-list-item--raised {
+    @include button.filled-accessible(color-palette.$red-600);
+  }
+  &.mdc-button--outlined,
+  &.mdc-deprecated-list-item--outlined {
+    @include button.outline-color(color-palette.$red-600);
+    @include button.ink-color(color-palette.$red-600);
+  }
+
+  @include button.ripple-states(color-palette.$red-600);
+}
+
+.btn-warn {
+  &.mdc-button,
+  &.mdc-deprecated-list-item {
+    @include button.ink-color(color-palette.$amber-600);
+  }
+  &.mdc-button--unelevated,
+  &.mdc-button--raised,
+  &.mdc-deprecated-list-item--unelevated,
+  &.mdc-deprecated-list-item--raised {
+    @include button.filled-accessible(color-palette.$amber-600);
+  }
+  &.mdc-button--outlined,
+  &.mdc-deprecated-list-item--outlined {
+    @include button.outline-color(color-palette.$amber-600);
+    @include button.ink-color(color-palette.$amber-600);
+  }
+
+  @include button.ripple-states(color-palette.$amber-600);
 }
