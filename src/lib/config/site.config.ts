@@ -1,5 +1,5 @@
 const config = {
-    siteName: "UAS Showcase"
-}
+	siteName: 'UAS Showcase'
+};
 
 export default config;

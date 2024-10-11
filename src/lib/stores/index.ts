@@ -1,1 +1,1 @@
-export {title} from './titleStore';
+export { title } from './titleStore';
